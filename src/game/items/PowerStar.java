@@ -8,13 +8,14 @@ import game.interfaces.Tradable;
 
 public class PowerStar extends Item implements Tradable {
     private static final int PRICE = 600;
+    private static final String NAME = "Power Star";
     private static final char POWER_STAR_CHAR = '*';
 
     /***
      * Constructor.
      */
     public PowerStar() {
-        super("Power Star", POWER_STAR_CHAR, true);
+        super(NAME, POWER_STAR_CHAR, true);
     }
 
     @Override

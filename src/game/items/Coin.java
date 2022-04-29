@@ -8,6 +8,7 @@ import game.interfaces.Resettable;
 
 public class Coin extends Item implements Resettable {
     private int value;
+    private static final String NAME = "Coin";
     private static final char COIN_CHAR = '$';
 
     /***
@@ -15,7 +16,7 @@ public class Coin extends Item implements Resettable {
      *  @param value the value of this Coin
      */
     public Coin(int value) {
-        super("Coin", COIN_CHAR, false);
+        super(NAME, COIN_CHAR, false);
         this.value = value;
         this.addAction(new PickUpCoinAction(this));
         this.registerInstance();
