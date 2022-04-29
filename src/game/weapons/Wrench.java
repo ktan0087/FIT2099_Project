@@ -17,6 +17,7 @@ public class Wrench extends WeaponItem implements Tradable {
      */
     public Wrench() {
         super(NAME, WRENCH_CHAR, DAMAGE, WRENCH_VERB, HIT_RATE);
+        this.registerTradableInstance();
     }
 
     @Override

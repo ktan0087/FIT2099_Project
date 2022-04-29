@@ -16,6 +16,7 @@ public class PowerStar extends Item implements Tradable {
      */
     public PowerStar() {
         super(NAME, POWER_STAR_CHAR, true);
+        this.registerTradableInstance();
     }
 
     @Override
