@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.displays.Menu;
+import game.Wallet;
 import game.actions.ResetAction;
 import game.enums.Status;
 import game.interfaces.Resettable;
@@ -32,6 +33,8 @@ public class Player extends Actor implements Resettable {
 
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+		display.println(this + "'s current balance: $" + Wallet.getBalance());
+
 		if (!(ResetAction.getResetFlag())){
 			actions.add(new ResetAction());
 		}
