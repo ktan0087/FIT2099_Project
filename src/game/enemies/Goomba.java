@@ -7,6 +7,8 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.positions.Location;
+import game.actions.SuicideAction;
 import game.interfaces.Behaviour;
 import game.enums.Status;
 import game.actions.AttackAction;
@@ -17,7 +19,7 @@ import java.util.Map;
 /**
  * A little fungus guy.
  */
-public class Goomba extends Actor {
+public class Goomba extends Enemy {
 	private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
 
 	/**
@@ -47,18 +49,27 @@ public class Goomba extends Actor {
 		return actions;
 	}
 
+
 	/**
 	 * Figure out what to do next.
 	 * @see Actor#playTurn(ActionList, Action, GameMap, Display)
 	 */
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+		Location actorLocation = map.locationOf(this);
+		super.playTurn(actions, lastAction, map, display);
+
+		if (!(map.contains(this))){
+			return new SuicideAction(actorLocation);
+		}
+
 		for(Behaviour Behaviour : behaviours.values()) {
 			Action action = Behaviour.getAction(this, map);
 			if (action != null)
 				return action;
 		}
 		return new DoNothingAction();
+
 	}
 
 }
