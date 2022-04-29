@@ -47,6 +47,10 @@ public class ResetManager {
      * By doing this way, it will avoid using `instanceof` all over the place.
      */
     public void run(){
+        for (Resettable resettable: resettableList) {
+            resettable.resetInstance();
+        }
+        cleanUp();
     }
 
     /**
@@ -54,14 +58,15 @@ public class ResetManager {
      * FIXME: it does nothing, you need to implement it :)
      */
     public void appendResetInstance(Resettable reset){
+        resettableList.add(reset);
     }
 
 
     /**
      * Remove a Resettable instance from the list
-     * @param resettable resettable object
      * FIXME: it does nothing, you need to implement it :)
      */
-    public void cleanUp(Resettable resettable){
+    public void cleanUp(){
+        resettableList.clear();
     }
 }
