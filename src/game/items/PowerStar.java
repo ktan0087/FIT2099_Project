@@ -16,12 +16,16 @@ public class PowerStar extends Item implements Tradable {
      */
     public PowerStar() {
         super(NAME, POWER_STAR_CHAR, true);
-        this.registerTradableInstance();
     }
 
     @Override
     public int getPrice() {
         return PRICE;
+    }
+
+    @Override
+    public void addCapabilityDuringTrading() {
+        this.addCapability(Status.UNDROPPABLE);
     }
 
     @Override

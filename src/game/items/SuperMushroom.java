@@ -16,12 +16,16 @@ public class SuperMushroom extends Item implements Tradable {
      */
     public SuperMushroom() {
         super(NAME, SUPER_MUSHROOM_CHAR, true);
-        this.registerTradableInstance();
     }
 
     @Override
     public int getPrice() {
         return PRICE;
+    }
+
+    @Override
+    public void addCapabilityDuringTrading() {
+        this.addCapability(Status.UNDROPPABLE);
     }
 
     @Override
