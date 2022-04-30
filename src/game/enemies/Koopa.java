@@ -60,6 +60,7 @@ public class Koopa extends Enemy{
         for (Item item : otherActor.getInventory()){
             if (item.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)){
                 isShellBroken = true;
+                this.addCapability(Status.DESTROYED);
             }
         }
         return actions;
@@ -94,9 +95,12 @@ public class Koopa extends Enemy{
 
         //if Koopa is in dormant state
         if (isDormant){
+            this.addCapability(Status.DORMANT);
             return new DoNothingAction();
         }
         if (isShellBroken){
+            this.removeCapability(Status.DORMANT);
+            this.addCapability(Status.DESTROYED);
             dropSuperMushroom();
         }
         return new DoNothingAction();
@@ -107,14 +111,6 @@ public class Koopa extends Enemy{
             spawnLocation.addItem(new SuperMushroom());
             spawnLocation.map().removeActor(this);
         }
-    }
-
-    public boolean isShellBroken() {
-        return isShellBroken;
-    }
-
-    public boolean isDormant() {
-        return isDormant;
     }
 
     @Override

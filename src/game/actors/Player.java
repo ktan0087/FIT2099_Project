@@ -5,11 +5,15 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.Wallet;
+import game.actions.ConsumeAction;
 import game.actions.ResetAction;
 import game.enums.Status;
 import game.interfaces.Resettable;
+import game.items.ConsumableItem;
+import game.managers.ConsumableItemManager;
 
 /**
  * Class representing the Player.
@@ -35,6 +39,7 @@ public class Player extends Actor implements Resettable {
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
+		display.println(this +  printHp() + "at" + map.locationOf(this));
 		display.println(this + "'s current balance: $" + Wallet.getBalance());
 
 		if (!(ResetAction.getResetFlag())){
@@ -52,7 +57,12 @@ public class Player extends Actor implements Resettable {
 			removeCapability(Status.INVINCIBLE);
 		}
 
-		//add on here
+		for (Item item: this.getInventory()){
+			ConsumableItem consumableItem = ConsumableItemManager.getInstance().getConsumableItem(item);
+			if (consumableItem != null){
+				actions.add(new ConsumeAction(consumableItem));
+			}
+		}
 
 		// Handle multi-turn Actions
 		if (lastAction.getNextAction() != null)
@@ -79,6 +89,14 @@ public class Player extends Actor implements Resettable {
 		}
 
 		this.resetMaxHp(this.getMaxHp());
+	}
+
+	@Override
+	public void hurt(int points){
+		super.hurt(points);
+		if (this.hasCapability(Status.TALL)){
+			this.removeCapability(Status.TALL);
+		}
 	}
 
 }

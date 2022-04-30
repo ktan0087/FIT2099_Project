@@ -2,11 +2,12 @@ package game.items;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.DropItemAction;
+import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.enums.Status;
 import game.interfaces.Tradable;
 
-public class PowerStar extends ConsumableItem implements Tradable {
+public class PowerStar extends Item implements Tradable, ConsumableItem {
     private static final int PRICE = 600;
     private static final String NAME = "Power Star";
     private static final char POWER_STAR_CHAR = '*';
@@ -53,7 +54,7 @@ public class PowerStar extends ConsumableItem implements Tradable {
     }
 
     @Override
-    public void consumed(Actor consumedActor) {
+    public void consumeMagicalItems(Actor consumedActor) {
         consumedActor.addCapability(Status.INVINCIBLE);
         consumedActor.heal(200);
     }
