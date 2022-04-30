@@ -15,9 +15,26 @@ import game.weapons.Wrench;
 
 import java.util.ArrayList;
 
+/**
+ * A Toad class is a friendly actor standing in the middle of the map where the player can buy some items from it
+ *
+ * @author Ong Di Sheng
+ * @version 1.0
+ */
 public class Toad extends Actor {
+    /**
+     * The name is set as a constant "Toad" / whatever you think is appropriate
+     */
     private static final String NAME = "Toad";
+
+    /**
+     * The display character of toad is set as a constant 'O'
+     */
     private static final char TOAD_CHAR = 'O';
+
+    /**
+     * The tradable items sold by Toad
+     */
     private ArrayList<Tradable> tradableList = new ArrayList<>();
 
     /**
@@ -25,32 +42,53 @@ public class Toad extends Actor {
      */
     public Toad() {
         super(NAME, TOAD_CHAR, Integer.MAX_VALUE);
-        addToTradableList();
+        addToTradableList();    // add items sold by toad to the tradable list
     }
 
+    /**
+     * Return the action used by Toad in the current turn (do nothing)
+     *
+     * @param actions    collection of possible Actions for Toad
+     * @param lastAction The Action took by Toad last turn. Can do interesting things in conjunction with Action.getNextAction()
+     * @param map        the map containing Toad
+     * @param display    the I/O object to which messages may be written
+     * @return
+     */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         return new DoNothingAction();
     }
 
+    /**
+     * Return the list of actions that can be performed by Toad
+     *
+     * @param otherActor the Actor that might be performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return list of actions that can be performed by Toad
+     */
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
 
         // loop through different types of tradable item
         for (Tradable item : tradableList) {
-            actions.add(new TradeAction(item));
+            actions.add(new TradeAction(item)); // add a trade action
         }
 
+        // add a speak action
         actions.add(new SpeakAction(this));
 
         return actions;
     }
 
+    /**
+     * Add items that are sold by Toad to the tradable list
+     */
     private void addToTradableList(){
-        tradableList.add(new PowerStar());
-        tradableList.add(new SuperMushroom());
-        tradableList.add(new Wrench());
+        tradableList.add(new PowerStar());  // add power star
+        tradableList.add(new SuperMushroom());  // add super mushroom
+        tradableList.add(new Wrench()); // add wrench
     }
 
 }
