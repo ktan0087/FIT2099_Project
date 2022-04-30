@@ -33,6 +33,7 @@ public class Mature extends Tree {
         if (Math.random() < DEATH_CHANCE) {
             location.setGround(new Dirt());
         }
+        super.tick(location);
     }
 
     private ArrayList<Location> findFertileGrounds(Location currentLocation) {

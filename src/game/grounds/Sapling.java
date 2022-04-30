@@ -23,6 +23,7 @@ public class Sapling extends Tree {
         if (Math.random() < SPAWN_CHANCE) {
             location.addItem(new Coin(20));
         }
+        super.tick(location);
     }
 
     @Override

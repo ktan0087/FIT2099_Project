@@ -23,6 +23,7 @@ public class Sprout extends Tree {
         if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
             location.addActor(new Goomba());
         }
+        super.tick(location);
     }
 
     @Override
