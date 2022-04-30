@@ -1,33 +1,45 @@
 package game.enemies;
 
-
 import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
-import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
-import game.actions.SuicideAction;
-import game.interfaces.Behaviour;
-import game.enums.Status;
-import game.actions.AttackAction;
+import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.interfaces.Behaviour;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+
 /**
  * A little fungus guy.
  */
 public class Goomba extends Enemy {
 	private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
+	private final int intrinsicDamage = 10;
+	private final String damageVerb = "kicks";
+	private final int suicideRate = 10;
+	private Random rand = new Random();
 
 	/**
 	 * Constructor.
 	 */
 	public Goomba() {
-		super("Goomba", 'g', 50);
+		this(null);
+	}
+
+	/**
+	 * Constructor.
+	 */
+	public Goomba(Location spawnLocation) {
+		super("Goomba", 'g', 50, spawnLocation);
 		this.behaviours.put(10, new WanderBehaviour());
+		this.behaviours.put(8, new AttackBehaviour());
 	}
 
 	/**
@@ -39,6 +51,7 @@ public class Goomba extends Enemy {
 	 * @return list of actions
 	 * @see Status#HOSTILE_TO_ENEMY
 	 */
+	/*
 	@Override
 	public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
 		ActionList actions = new ActionList();
@@ -48,7 +61,21 @@ public class Goomba extends Enemy {
 		}
 		return actions;
 	}
+	*/
 
+	/**
+	 * Creates and returns an intrinsic weapon.
+	 *
+	 * By default, the Actor 'punches' for 5 damage. Override this method to create
+	 * an Actor with more interesting descriptions and/or different damage.
+	 *
+	 * @return a freshly-instantiated IntrinsicWeapon
+	 * @see Actor getIntrinsicWeapon
+	 */
+	@Override
+	protected IntrinsicWeapon getIntrinsicWeapon(){
+		return new IntrinsicWeapon(intrinsicDamage, damageVerb);
+	}
 
 	/**
 	 * Figure out what to do next.
@@ -56,20 +83,22 @@ public class Goomba extends Enemy {
 	 */
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-		Location actorLocation = map.locationOf(this);
 		super.playTurn(actions, lastAction, map, display);
 
-		if (!(map.contains(this))){
-			return new SuicideAction(actorLocation);
+		if (map.contains(this)) {
+			for (Behaviour Behaviour : behaviours.values()) {
+				Action action = Behaviour.getAction(this, map);
+				if (action != null)
+					return action;
+			}
 		}
 
-		for(Behaviour Behaviour : behaviours.values()) {
-			Action action = Behaviour.getAction(this, map);
-			if (action != null)
-				return action;
+		if (rand.nextInt(100) <= suicideRate || !this.isConscious()){
+			map.removeActor(this);
 		}
+
 		return new DoNothingAction();
-
 	}
+
 
 }
