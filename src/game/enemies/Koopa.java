@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actions.SuicideAction;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.enums.Status;
@@ -84,7 +85,13 @@ public class Koopa extends Enemy{
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-        Action action = super.playTurn(actions, lastAction, map, display);
+        Location actorLocation = map.locationOf(this);
+        super.playTurn(actions, lastAction, map, display);
+
+        if (!(map.contains(this))){
+            return new SuicideAction(actorLocation);
+        }
+
         //if Koopa is in dormant state
         if (isDormant){
             return new DoNothingAction();
@@ -92,7 +99,7 @@ public class Koopa extends Enemy{
         if (isShellBroken){
             dropSuperMushroom();
         }
-        return action;
+        return new DoNothingAction();
     }
 
     public void dropSuperMushroom(){
