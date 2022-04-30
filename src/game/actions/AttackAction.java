@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.weapons.Weapon;
+import game.enums.Status;
 
 /**
  * Special Action for attacking other Actors.
@@ -49,10 +50,38 @@ public class AttackAction extends Action {
 		}
 
 		int damage = weapon.damage();
-		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
-		target.hurt(damage);
+		String output = "";
 
-		//add on here
+		//TODO: add conditions here
+		if (actor.hasCapability(Status.INVINCIBLE)){
+			if (target.hasCapability(Status.DORMANT) && actor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)) {
+				output = actor + " destroyed " + target + " with a wrench ";
+				target.hurt(Integer.MAX_VALUE);
+			}
+			else{
+				output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
+				target.hurt(damage);
+			}
+		}
+		// if actor in normal state
+		else {
+			if (target.hasCapability(Status.DORMANT)){
+				if (actor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)){
+					output = actor + " destroyed " + target + " with a wrench ";
+					target.hurt(Integer.MAX_VALUE);
+				}
+				else{
+					output = actor + " " + weapon.verb() + " can't damage " + target;
+				}
+			}
+			else if(target.hasCapability(Status.INVINCIBLE)){
+				output = actor + " " + weapon.verb() + " can't damage " + target;
+			}
+			else{
+				output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
+				target.hurt(damage);
+			}
+		}
 
 		if (!target.isConscious()) {
 			ActionList dropActions = new ActionList();
@@ -63,10 +92,10 @@ public class AttackAction extends Action {
 				drop.execute(target, map);
 			// remove actor
 			map.removeActor(target);
-			result += System.lineSeparator() + target + " is killed.";
+			output += System.lineSeparator() + target + " is killed.";
 		}
 
-		return result;
+		return output;
 	}
 
 	@Override
