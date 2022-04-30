@@ -18,6 +18,7 @@ public class Wrench extends WeaponItem implements Tradable {
      */
     public Wrench() {
         super(NAME, WRENCH_CHAR, DAMAGE, WRENCH_VERB, HIT_RATE);
+        this.addCapability(Status.CAN_SMASH_KOOPA_SHELL);
     }
 
     @Override
