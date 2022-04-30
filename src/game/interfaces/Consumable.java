@@ -1,9 +1,9 @@
-package game.items;
+package game.interfaces;
 
 import edu.monash.fit2099.engine.actors.Actor;
 import game.managers.ConsumableItemManager;
 
-public interface ConsumableItem {
+public interface Consumable {
 
     public void consumeMagicalItems(Actor actor);
 

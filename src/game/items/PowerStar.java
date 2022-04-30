@@ -5,9 +5,10 @@ import edu.monash.fit2099.engine.items.DropItemAction;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import game.enums.Status;
+import game.interfaces.Consumable;
 import game.interfaces.Tradable;
 
-public class PowerStar extends Item implements Tradable, ConsumableItem {
+public class PowerStar extends Item implements Tradable, Consumable {
     private static final int PRICE = 600;
     private static final String NAME = "Power Star";
     private static final char POWER_STAR_CHAR = '*';
@@ -18,6 +19,7 @@ public class PowerStar extends Item implements Tradable, ConsumableItem {
      */
     public PowerStar() {
         super(NAME, POWER_STAR_CHAR, true);
+        this.addToConsumableItemManager();
     }
 
     @Override

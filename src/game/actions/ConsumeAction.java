@@ -4,15 +4,15 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
-import game.items.ConsumableItem;
+import game.interfaces.Consumable;
 import game.managers.ConsumableItemManager;
 
 public class ConsumeAction extends Action {
 
-    private ConsumableItem consumableItem;
+    private Consumable consumable;
 
-    public ConsumeAction(ConsumableItem consumableItem) {
-        this.consumableItem = consumableItem;
+    public ConsumeAction(Consumable consumable) {
+        this.consumable = consumable;
     }
 
     /**
@@ -24,11 +24,10 @@ public class ConsumeAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-
-        actor.removeItemFromInventory((Item) consumableItem);
-        consumableItem.consumeMagicalItems(actor);
-        ConsumableItemManager.getInstance().removeConsumableItem((Item) consumableItem);
-        return actor + " consumeMagicalItems " + consumableItem;
+        actor.removeItemFromInventory((Item) consumable);
+        consumable.consumeMagicalItems(actor);
+        ConsumableItemManager.getInstance().removeConsumableItem((Item) consumable);
+        return actor + " consumeMagicalItems " + consumable;
     }
 
     /**
@@ -39,6 +38,6 @@ public class ConsumeAction extends Action {
      */
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " consumes " + consumableItem;
+        return actor + " consumes " + consumable;
     }
 }

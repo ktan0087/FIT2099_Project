@@ -12,7 +12,7 @@ import game.actions.ConsumeAction;
 import game.actions.ResetAction;
 import game.enums.Status;
 import game.interfaces.Resettable;
-import game.items.ConsumableItem;
+import game.interfaces.Consumable;
 import game.managers.ConsumableItemManager;
 
 /**
@@ -59,9 +59,9 @@ public class Player extends Actor implements Resettable {
 		}
 
 		for (Item item: this.getInventory()){
-			ConsumableItem consumableItem = ConsumableItemManager.getInstance().getConsumableItem(item);
-			if (consumableItem != null){
-				actions.add(new ConsumeAction(consumableItem));
+			Consumable consumable = ConsumableItemManager.getInstance().getConsumableItem(item);
+			if (consumable != null){
+				actions.add(new ConsumeAction(consumable));
 			}
 		}
 

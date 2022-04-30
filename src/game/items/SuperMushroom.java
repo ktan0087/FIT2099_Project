@@ -4,18 +4,21 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.DropItemAction;
 import edu.monash.fit2099.engine.items.Item;
 import game.enums.Status;
+import game.interfaces.Consumable;
 import game.interfaces.Tradable;
 
-public class SuperMushroom extends Item implements Tradable, ConsumableItem {
+public class SuperMushroom extends Item implements Tradable, Consumable {
     private static final int PRICE = 400;
     private static final String NAME = "Super Mushroom";
     private static final char SUPER_MUSHROOM_CHAR = '^';
+
 
     /***
      * Constructor.
      */
     public SuperMushroom() {
         super(NAME, SUPER_MUSHROOM_CHAR, true);
+        this.addToConsumableItemManager();
     }
 
     @Override
