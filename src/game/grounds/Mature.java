@@ -39,7 +39,7 @@ public class Mature extends Tree {
         ArrayList<Location> fertileGrounds = new ArrayList<>();
         for (Exit exit: currentLocation.getExits()) {
             Location potentialFertileGround = exit.getDestination();
-            if (potentialFertileGround.getGround().hasCapability(Status.FERTILE) && !potentialFertileGround.containsAnActor()) {
+            if (potentialFertileGround.getGround().hasCapability(Status.FERTILE)) {
                 fertileGrounds.add(potentialFertileGround);
             }
         }
