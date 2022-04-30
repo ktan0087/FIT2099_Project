@@ -17,10 +17,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static game.enums.Status.HOSTILE_TO_PLAYER;
+
 public abstract class Enemy extends Actor implements Resettable {
 
     private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
     protected Location spawnLocation;
+
+    public Enemy(String name, char displayChar, int hitPoints) {
+        super(name, displayChar, hitPoints);
+        this.addCapability(Status.HOSTILE_TO_PLAYER);
+        this.behaviours.put(10, new WanderBehaviour());
+        this.behaviours.put(8, new AttackBehaviour());
+    }
 
     /**
      * Constructor.
@@ -50,6 +59,10 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
+        if (this.hasCapability(Status.RESET)){
+            map.removeActor(this);
+        }
+
         if(this.isConscious()) {
             Location location = map.locationOf(this);
             this.spawnLocation = map.at(location.x(), location.y());
@@ -58,17 +71,7 @@ public abstract class Enemy extends Actor implements Resettable {
             return new DoNothingAction();
         }
 
-        for(Behaviour Behaviour : behaviours.values()) {
-            Action action = Behaviour.getAction(this, map);
-            if (action != null)
-                return action;
-        }
-
-        if (this.hasCapability(Status.RESET)){
-            map.removeActor(this);
-        }
-
-        return new DoNothingAction();
+        return null;
     }
 
     /**
@@ -87,7 +90,7 @@ public abstract class Enemy extends Actor implements Resettable {
             actions.add(new AttackAction(this, direction));
         }
 
-        return new ActionList();
+        return actions;
     }
 
     @Override

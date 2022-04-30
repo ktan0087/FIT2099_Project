@@ -21,7 +21,7 @@ public class Sprout extends Tree {
             location.setGround(new Sapling());
         }
         if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
-            location.addActor(new Goomba(location));
+            location.addActor(new Goomba());
         }
         super.tick(location);
     }

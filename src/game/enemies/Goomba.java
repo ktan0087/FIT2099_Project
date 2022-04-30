@@ -27,11 +27,16 @@ public class Goomba extends Enemy {
 	private final int SUICIDE_RATE = 10;
 	private Random rand = new Random();
 
+	public Goomba() {
+		super("Goomba", 'g', 50);
+		this.behaviours.put(10, new WanderBehaviour());
+		this.behaviours.put(8, new AttackBehaviour());
+	}
+
 	/**
 	 * Constructor.
 	 *
 	 */
-
 	public Goomba(Location spawnLocation) {
 		super("Goomba", 'g', 50, spawnLocation);
 		this.behaviours.put(10, new WanderBehaviour());
@@ -80,18 +85,24 @@ public class Goomba extends Enemy {
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 		Location actorLocation = map.locationOf(this);
-		Action action = super.playTurn(actions, lastAction, map, display);
-
-		if (rand.nextInt(100) <= SUICIDE_RATE || !this.isConscious()){
-			map.removeActor(this);
-			return new DoNothingAction();
-		}
+		super.playTurn(actions, lastAction, map, display);
 
 		//method used to remove Goomba when reset
 		if (!(map.contains(this))){
 			return new SuicideAction(actorLocation);
 		}
 
-		return action;
+		if (rand.nextInt(100) <= SUICIDE_RATE || !this.isConscious()){
+			map.removeActor(this);
+			return new SuicideAction(actorLocation);
+		}
+
+		for(Behaviour Behaviour : behaviours.values()) {
+			Action action = Behaviour.getAction(this, map);
+			if (action != null)
+				return action;
+		}
+
+		return new DoNothingAction();
 	}
 }
