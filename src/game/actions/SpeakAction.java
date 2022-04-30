@@ -39,7 +39,7 @@ public class SpeakAction extends Action {
             excludeMsgIndexList.add(EXCLUDE_POWER_STAR_MSG);
         }
 
-        return getRandomMsg(excludeMsgIndexList);
+        return target + ": " + getRandomMsg(excludeMsgIndexList);
     }
 
     @Override
