@@ -7,13 +7,14 @@ import game.interfaces.Tradable;
 
 public class SuperMushroom extends ConsumableItem implements Tradable {
     private static final int PRICE = 400;
+    private static final String NAME = "SuperMushroom";
     private static final char SUPER_MUSHROOM_CHAR = '^';
 
     /***
      * Constructor.
      */
     public SuperMushroom() {
-        super("Super Mushroom", SUPER_MUSHROOM_CHAR, true);
+        super(NAME, SUPER_MUSHROOM_CHAR, true);
     }
 
     @Override

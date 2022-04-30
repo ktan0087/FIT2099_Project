@@ -8,6 +8,7 @@ import game.interfaces.Tradable;
 
 public class PowerStar extends ConsumableItem implements Tradable {
     private static final int PRICE = 600;
+    private static final String NAME = "Power Star";
     private static final char POWER_STAR_CHAR = '*';
     private int turn = 10;
 
@@ -15,7 +16,7 @@ public class PowerStar extends ConsumableItem implements Tradable {
      * Constructor.
      */
     public PowerStar() {
-        super("Power Star", POWER_STAR_CHAR, true);
+        super(NAME, POWER_STAR_CHAR, true);
     }
 
     @Override

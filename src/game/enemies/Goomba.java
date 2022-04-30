@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.actions.SuicideAction;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.interfaces.Behaviour;
@@ -83,21 +84,20 @@ public class Goomba extends Enemy {
 	 */
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+		Location actorLocation = map.locationOf(this);
 		super.playTurn(actions, lastAction, map, display);
 
-		if (map.contains(this)) {
-			for (Behaviour Behaviour : behaviours.values()) {
-				Action action = Behaviour.getAction(this, map);
-				if (action != null)
-					return action;
-			}
+		if (!(map.contains(this))){
+			return new SuicideAction(actorLocation);
 		}
 
-		if (rand.nextInt(100) <= suicideRate || !this.isConscious()){
-			map.removeActor(this);
+		for(Behaviour Behaviour : behaviours.values()) {
+			Action action = Behaviour.getAction(this, map);
+			if (action != null)
+				return action;
 		}
-
 		return new DoNothingAction();
+
 	}
 
 

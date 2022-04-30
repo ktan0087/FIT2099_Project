@@ -90,33 +90,17 @@ public abstract class Enemy extends Actor implements Resettable {
     }
 
     /**
-     * Returns hitPoints of Actor
-     *
-     * @return health of Actor
-     * */
-    /*
-    public int getHealthPercentage(){
-        return hitPoints;
-    }
-
-     */
-
-    /**
      * Returns details of enemy if it is still conscious
      *
      * @return details of enemy
      * */
-    /*
     @Override
     public String toString() {
-        String returnString = name;
-        if (isConscious()){
-            returnString = String.format("%s(%s/%s)", name, hitPoints, maxHitPoints);
+        if (isConscious()) {
+            return name;
         }
-        return returnString;
+        return printHp();
     }
-
-     */
 
     @Override
     public void resetInstance() {
