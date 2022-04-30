@@ -91,13 +91,18 @@ public class Goomba extends Enemy {
 			return new SuicideAction(actorLocation);
 		}
 
+		if (rand.nextInt(100) <= suicideRate || !this.isConscious()){
+			map.removeActor(this);
+			return new SuicideAction(actorLocation);
+		}
+
 		for(Behaviour Behaviour : behaviours.values()) {
 			Action action = Behaviour.getAction(this, map);
 			if (action != null)
 				return action;
 		}
-		return new DoNothingAction();
 
+		return new DoNothingAction();
 	}
 
 
