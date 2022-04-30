@@ -20,7 +20,7 @@ public class Sapling extends Tree {
         if (age == GROWTH_AGE) {
             location.setGround(new Mature());
         }
-        if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
+        if (Math.random() < SPAWN_CHANCE) {
             location.addItem(new Coin(20));
         }
     }

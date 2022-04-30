@@ -36,9 +36,7 @@ public abstract class HighGround extends Ground {
             currentJumpChance = MAX_JUMP_CHANCE;
             currentFallDamage = MIN_FALL_DAMAGE;
         }
-        System.out.println(currentJumpChance);
-        System.out.println(currentFallDamage);
-        if (Math.random() <= currentJumpChance) {
+        if (Math.random() < currentJumpChance) {
             gameMap.moveActor(actor, to);
             jumpMessage = "Successfully jumped onto the high ground!";
         } else {
