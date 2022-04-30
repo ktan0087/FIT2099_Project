@@ -7,7 +7,7 @@ import game.interfaces.Tradable;
 
 public class SuperMushroom extends ConsumableItem implements Tradable {
     private static final int PRICE = 400;
-    private static final String NAME = "SuperMushroom";
+    private static final String NAME = "Super Mushroom";
     private static final char SUPER_MUSHROOM_CHAR = '^';
 
     /***
