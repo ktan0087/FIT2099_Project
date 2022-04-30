@@ -15,18 +15,19 @@ public abstract class Tree extends HighGround implements Resettable {
      */
     public Tree(char displayChar) {
         super(displayChar);
-        this.registerInstance();
+        this.registerInstance();    // tree is resettable
     }
 
     @Override
     public void tick(Location location) {
+        // if tree has RESET status and a 50% chance
         if (this.hasCapability(Status.RESET) && Math.random() > 0.5){
-            location.setGround(new Dirt());
+            location.setGround(new Dirt()); // convert to dirt
         }
     }
 
     @Override
     public void resetInstance() {
-        this.addCapability(Status.RESET);
+        this.addCapability(Status.RESET);   // add RESET status to tree during reset action
     }
 }
