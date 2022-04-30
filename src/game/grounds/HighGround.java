@@ -1,9 +1,11 @@
 package game.grounds;
 
+import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
+import game.actions.JumpAction;
 import game.enums.Status;
 
 public abstract class HighGround extends Ground {
@@ -44,6 +46,15 @@ public abstract class HighGround extends Ground {
             jumpMessage = "Jump failed! Received " + currentFallDamage + " damage from the fall.";
         }
         return jumpMessage;
+    }
+
+    @Override
+    public ActionList allowableActions(Actor actor, Location location, String direction){
+        ActionList actions = new ActionList();
+        if (!location.containsAnActor()) {
+            actions.add(new JumpAction(this, direction, location));
+        }
+        return actions;
     }
 
     public void setJumpChance(double jumpChance) {
