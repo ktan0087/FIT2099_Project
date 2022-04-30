@@ -51,6 +51,9 @@ public class AttackAction extends Action {
 		int damage = weapon.damage();
 		String result = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 		target.hurt(damage);
+
+		//add on here
+
 		if (!target.isConscious()) {
 			ActionList dropActions = new ActionList();
 			// drop all items
