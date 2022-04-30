@@ -45,7 +45,7 @@ public class Application {
 				"......................................................#.........................",
 				".......................................................##.......................");
 
-
+			addSprouts(map);
 
 			GameMap gameMap = new GameMap(groundFactory, map);
 			world.addGameMap(gameMap);
@@ -58,5 +58,17 @@ public class Application {
 
 			world.run();
 
+	}
+
+	public static void addSprouts(List<String> map) {
+		for (int i = 0; i <  map.size(); i++) {
+			for (int j = 0; j < map.get(i).length(); j++) {
+				if (Math.random() < 0.01 && map.get(i).charAt(j) == '.') {
+					char[] newString = map.get(i).toCharArray();
+					newString[j] = '+';
+					map.set(i, String.valueOf(newString));
+				}
+			}
+		}
 	}
 }
