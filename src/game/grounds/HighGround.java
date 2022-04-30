@@ -33,13 +33,14 @@ public abstract class HighGround extends Ground {
         String jumpMessage;
         double currentJumpChance = jumpChance;
         int currentFallDamage = fallDamage;
+
         if (actor.hasCapability(Status.TALL)) {
             currentJumpChance = MAX_JUMP_CHANCE;
             currentFallDamage = MIN_FALL_DAMAGE;
         }
         if (Math.random() < currentJumpChance) {
             gameMap.moveActor(actor, to);
-            jumpMessage = "Successfully jumped onto the high ground!";
+            jumpMessage = "Successfully jumped onto the ";
         } else {
             actor.hurt(currentFallDamage);
             jumpMessage = "Jump failed! Received " + currentFallDamage + " damage from the fall.";

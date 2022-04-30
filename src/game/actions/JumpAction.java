@@ -22,7 +22,7 @@ public class JumpAction extends Action {
 
     @Override
     public String execute(Actor actor, GameMap map) {
-        return highGround.jumped(actor, highGroundLocation, map);
+        return highGround.jumped(actor, highGroundLocation, map) + coordinateString + "!";
     }
 
     @Override
