@@ -8,6 +8,7 @@ public enum Status {
     HOSTILE_TO_ENEMY, // use this status to be considered hostile towards enemy (e.g., to be attacked by enemy)
     HOSTILE_TO_PLAYER, // can be attack by player
     TALL, // use this status to tell that current instance has "grown".
+    FERTILE,
     INVINCIBLE,
     UNDROPPABLE,
     CAN_SMASH_KOOPA_SHELL,
