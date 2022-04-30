@@ -60,14 +60,7 @@ public abstract class Enemy extends Actor implements Resettable {
             map.removeActor(this);
         }
 
-        // search through Behaviour arrayList
-        for(Behaviour Behaviour : behaviours) {
-            Action action = Behaviour.getAction(this, map);
-            if (action != null)
-                return action;
-        }
-
-        return new DoNothingAction();
+        return null;
     }
 
     /**
