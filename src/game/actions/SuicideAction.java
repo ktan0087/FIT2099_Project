@@ -19,6 +19,6 @@ public class SuicideAction extends Action {
 
     @Override
     public String menuDescription(Actor actor) {
-        return actor + " at (" + suicideLocation.x() + ", " + suicideLocation.y() + ") is killed";
+        return actor + " at (" + suicideLocation.x() + ", " + suicideLocation.y() + ") commits suicide";
     }
 }
