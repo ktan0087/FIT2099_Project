@@ -5,7 +5,7 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.enums.Status;
 import game.interfaces.Resettable;
 
-public abstract class Tree extends Ground implements Resettable {
+public abstract class Tree extends HighGround implements Resettable {
     protected int age = 0;
     protected static final int GROWTH_AGE = 10;
 

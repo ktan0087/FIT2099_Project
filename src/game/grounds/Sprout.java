@@ -5,9 +5,13 @@ import game.enemies.Goomba;
 
 public class Sprout extends Tree {
     private static final double SPAWN_CHANCE = 0.1;
+    private static final double JUMP_CHANCE = 0.9;
+    private static final int FALL_DAMAGE = 10;
 
     public Sprout() {
         super('+');
+        setJumpChance(JUMP_CHANCE);
+        setFallDamage(FALL_DAMAGE);
     }
 
     @Override

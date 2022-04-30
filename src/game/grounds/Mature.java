@@ -11,9 +11,13 @@ import java.util.Random;
 public class Mature extends Tree {
     private static final double DEATH_CHANCE = 0.20;
     private static final double SPAWN_CHANCE = 0.15;
+    private static final double JUMP_CHANCE = 0.7;
+    private static final int FALL_DAMAGE = 30;
 
     public Mature() {
         super('T');
+        setJumpChance(JUMP_CHANCE);
+        setFallDamage(FALL_DAMAGE);
     }
 
     @Override

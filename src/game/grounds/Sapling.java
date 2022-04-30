@@ -5,9 +5,13 @@ import game.items.Coin;
 
 public class Sapling extends Tree {
     private static final double SPAWN_CHANCE = 0.1;
+    private static final double JUMP_CHANCE = 0.8;
+    private static final int FALL_DAMAGE = 20;
 
     public Sapling() {
         super('t');
+        setJumpChance(JUMP_CHANCE);
+        setFallDamage(FALL_DAMAGE);
     }
 
     @Override
