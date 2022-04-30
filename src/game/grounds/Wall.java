@@ -11,14 +11,9 @@ public class Wall extends HighGround {
 		setJumpChance(JUMP_CHANCE);
 		setFallDamage(FALL_DAMAGE);
 	}
-	
+
 	@Override
-	public boolean canActorEnter(Actor actor) {
-		return false;
-	}
-	
-	@Override
-	public boolean blocksThrownObjects() {
-		return true;
+	public String toString() {
+		return "Wall";
 	}
 }
