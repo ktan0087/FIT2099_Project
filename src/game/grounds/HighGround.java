@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.JumpAction;
 import game.enums.Status;
+import game.items.Coin;
 
 public abstract class HighGround extends Ground {
     protected double jumpChance;
@@ -20,7 +21,7 @@ public abstract class HighGround extends Ground {
 
     @Override
     public boolean canActorEnter(Actor actor) {
-        return false;
+        return actor.hasCapability(Status.INVINCIBLE);
     }
 
     @Override
@@ -49,7 +50,7 @@ public abstract class HighGround extends Ground {
     @Override
     public ActionList allowableActions(Actor actor, Location location, String direction){
         ActionList actions = new ActionList();
-        if (!location.containsAnActor()) {
+        if (!location.containsAnActor() && !actor.hasCapability(Status.INVINCIBLE)) {
             actions.add(new JumpAction(this, direction, location));
         }
         return actions;
@@ -61,5 +62,13 @@ public abstract class HighGround extends Ground {
 
     public void setFallDamage(int fallDamage) {
         this.fallDamage = fallDamage;
+    }
+
+    @Override
+    public void tick(Location location) {
+        if (location.containsAnActor() && location.getActor().hasCapability(Status.INVINCIBLE)) {
+            location.setGround(new Dirt());
+            location.addItem(new Coin(5));
+        }
     }
 }
