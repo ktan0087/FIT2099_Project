@@ -40,7 +40,7 @@ public class Player extends Actor implements Resettable {
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
-		display.println(this +  printHp() + "at" + map.locationOf(this));
+		display.println(this +  printHp() + " at " + map.locationOf(this).getGround());
 		display.println(this + "'s current balance: $" + Wallet.getBalance());
 
 		if (!(ResetAction.getResetFlag())){
