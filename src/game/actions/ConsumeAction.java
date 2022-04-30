@@ -24,10 +24,17 @@ public class ConsumeAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
+        //remove consumable from inventory
         actor.removeItemFromInventory((Item) consumable);
+
+        //invoke consumeMagicalItems method from consumable interface
         consumable.consumeMagicalItems(actor);
+
+        //remove consumed items from consumableList
         ConsumableItemManager.getInstance().removeConsumableItem((Item) consumable);
-        return actor + " consumeMagicalItems " + consumable;
+
+        //return output to console
+        return actor + " consume Magical Items: " + consumable;
     }
 
     /**

@@ -14,21 +14,13 @@ import game.interfaces.Resettable;
 import game.enums.Status;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Enemy extends Actor implements Resettable {
 
-    protected ArrayList<Behaviour> behaviours = new ArrayList<>();
+    private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
     protected Location spawnLocation;
-
-    /**
-     * Constructor.
-     *  @param name        the name of the Actor
-     * @param displayChar the character that will represent the Actor in the display
-     * @param hitPoints   the Actor's starting hit points
-     */
-    public Enemy(String name, char displayChar, int hitPoints) {
-        this(name, displayChar, hitPoints, null);
-    }
 
     /**
      * Constructor.
@@ -39,9 +31,11 @@ public abstract class Enemy extends Actor implements Resettable {
      */
     public Enemy(String name, char displayChar, int hitPoints, Location spawnLocation) {
         super(name, displayChar, hitPoints);
-        this.registerInstance();
+        this.addCapability(Status.HOSTILE_TO_PLAYER);  //can be attacked by player
         this.spawnLocation = spawnLocation;
-        addCapability(Status.HOSTILE_TO_PLAYER);   //can be attacked by player
+        this.behaviours.put(10, new WanderBehaviour());
+        this.behaviours.put(8, new AttackBehaviour());
+        this.registerInstance();
     }
 
     /**
@@ -56,11 +50,25 @@ public abstract class Enemy extends Actor implements Resettable {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
+        if(this.isConscious()) {
+            Location location = map.locationOf(this);
+            this.spawnLocation = map.at(location.x(), location.y());
+        }
+        else {
+            return new DoNothingAction();
+        }
+
+        for(Behaviour Behaviour : behaviours.values()) {
+            Action action = Behaviour.getAction(this, map);
+            if (action != null)
+                return action;
+        }
+
         if (this.hasCapability(Status.RESET)){
             map.removeActor(this);
         }
 
-        return null;
+        return new DoNothingAction();
     }
 
     /**
@@ -82,21 +90,9 @@ public abstract class Enemy extends Actor implements Resettable {
         return new ActionList();
     }
 
-    /**
-     * Returns details of enemy if it is still conscious
-     *
-     * @return details of enemy
-     * */
-    @Override
-    public String toString() {
-        if (isConscious()) {
-            return name;
-        }
-        return printHp();
-    }
-
     @Override
     public void resetInstance() {
         this.addCapability(Status.RESET);
     }
+
 }

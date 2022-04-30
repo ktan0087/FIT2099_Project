@@ -31,17 +31,8 @@ public class Koopa extends Enemy{
     /**
      * Constructor.
      */
-    public Koopa() {
-        this(null);
-    }
-
-    /**
-     * Constructor.
-     */
     public Koopa(Location spawnLocation) {
         super("Koopa", 'K', 100, spawnLocation);
-        this.behaviours.put(10, new WanderBehaviour());
-        this.behaviours.put(8, new AttackBehaviour());
     }
 
     /**
@@ -87,11 +78,8 @@ public class Koopa extends Enemy{
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         Location actorLocation = map.locationOf(this);
-        super.playTurn(actions, lastAction, map, display);
+        Action action = super.playTurn(actions, lastAction, map, display);
 
-        if (!(map.contains(this))){
-            return new SuicideAction(actorLocation);
-        }
 
         //if Koopa is in dormant state
         if (isDormant){
@@ -103,7 +91,13 @@ public class Koopa extends Enemy{
             this.addCapability(Status.DESTROYED);
             dropSuperMushroom();
         }
-        return new DoNothingAction();
+
+        //method used to remove Koopa when reset
+        if (!(map.contains(this))){
+            return new SuicideAction(actorLocation);
+        }
+
+        return action;
     }
 
     public void dropSuperMushroom(){

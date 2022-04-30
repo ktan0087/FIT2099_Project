@@ -28,7 +28,7 @@ public class Mature extends Tree {
             growSprout(fertileGrounds);
         }
         if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
-            location.addActor(new Koopa());
+            location.addActor(new Koopa(location));
         }
         if (Math.random() < DEATH_CHANCE) {
             location.setGround(new Dirt());

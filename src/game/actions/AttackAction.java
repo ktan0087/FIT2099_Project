@@ -52,8 +52,9 @@ public class AttackAction extends Action {
 		int damage = weapon.damage();
 		String output = "";
 
-		//TODO: add conditions here
+		// check if actor is Invincible
 		if (actor.hasCapability(Status.INVINCIBLE)){
+
 			if (target.hasCapability(Status.DORMANT) && actor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)) {
 				output = actor + " destroyed " + target + " with a wrench ";
 				target.hurt(Integer.MAX_VALUE);
@@ -63,6 +64,7 @@ public class AttackAction extends Action {
 				target.hurt(damage);
 			}
 		}
+
 		// if actor in normal state
 		else {
 			if (target.hasCapability(Status.DORMANT)){
@@ -102,4 +104,5 @@ public class AttackAction extends Action {
 	public String menuDescription(Actor actor) {
 		return actor + " attacks " + target + " at " + direction;
 	}
+
 }

@@ -15,6 +15,6 @@ public enum Status {
     CAN_SMASH_KOOPA_SHELL,
     DORMANT,
     DESTROYED,
-    AGGRO, //aggressive behaviour
+    AGGRESSIVE, //aggressive behaviour
     RESET
 }

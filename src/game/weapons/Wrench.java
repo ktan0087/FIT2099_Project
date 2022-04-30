@@ -31,5 +31,4 @@ public class Wrench extends WeaponItem implements Tradable {
         this.addCapability(Status.CAN_SMASH_KOOPA_SHELL);
     }
 
-
 }

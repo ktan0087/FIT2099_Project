@@ -21,15 +21,15 @@ public class AttackBehaviour implements Behaviour {
             Location destination = exit.getDestination();
             if (destination.containsAnActor()){
                 Actor target = destination.getActor();
-                if (target.hasCapability(Status.HOSTILE_TO_ENEMY) && !actor.hasCapability(Status.HOSTILE_TO_ENEMY) || !target.hasCapability(Status.HOSTILE_TO_ENEMY) && actor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+                if (target.hasCapability(Status.HOSTILE_TO_ENEMY)){
                     followedTarget = target;
-                    actor.addCapability(Status.AGGRO);
+                    actor.addCapability(Status.AGGRESSIVE);
                     return new AttackAction(target, exit.getName());
                 }
             }
         }
 
-        if (followedTarget != null && actor.hasCapability(Status.AGGRO)){
+        if (followedTarget != null && actor.hasCapability(Status.AGGRESSIVE)){
             return new FollowBehaviour(followedTarget).getAction(actor, map);
         }
 

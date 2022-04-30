@@ -30,12 +30,13 @@ public class ConsumableItemManager {
     }
 
     public Consumable getConsumableItem(Item newItem){
-        for(Consumable item : consumableList){
-            if(item.equals(newItem)) {
-                return item;
+        Consumable retItem = null;
+        for(int counter = 0; counter < consumableList.size(); counter++){
+            if (consumableList.get(counter) == newItem){
+                retItem = consumableList.get(counter);
             }
         }
-        return null;
+        return retItem;
     }
 
     public void removeConsumableItem(Item item){

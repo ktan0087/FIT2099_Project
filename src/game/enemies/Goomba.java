@@ -22,21 +22,16 @@ import java.util.Random;
  */
 public class Goomba extends Enemy {
 	private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
-	private final int intrinsicDamage = 10;
-	private final String damageVerb = "kicks";
-	private final int suicideRate = 10;
+	private final int INTRINSIC_DAMAGE = 10;
+	private final String DAMAGE_VERB = "kicks";
+	private final int SUICIDE_RATE = 10;
 	private Random rand = new Random();
 
 	/**
 	 * Constructor.
+	 *
 	 */
-	public Goomba() {
-		this(null);
-	}
 
-	/**
-	 * Constructor.
-	 */
 	public Goomba(Location spawnLocation) {
 		super("Goomba", 'g', 50, spawnLocation);
 		this.behaviours.put(10, new WanderBehaviour());
@@ -75,7 +70,7 @@ public class Goomba extends Enemy {
 	 */
 	@Override
 	protected IntrinsicWeapon getIntrinsicWeapon(){
-		return new IntrinsicWeapon(intrinsicDamage, damageVerb);
+		return new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);
 	}
 
 	/**
@@ -85,25 +80,18 @@ public class Goomba extends Enemy {
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 		Location actorLocation = map.locationOf(this);
-		super.playTurn(actions, lastAction, map, display);
+		Action action = super.playTurn(actions, lastAction, map, display);
 
+		if (rand.nextInt(100) <= SUICIDE_RATE || !this.isConscious()){
+			map.removeActor(this);
+			return new DoNothingAction();
+		}
+
+		//method used to remove Goomba when reset
 		if (!(map.contains(this))){
 			return new SuicideAction(actorLocation);
 		}
 
-		if (rand.nextInt(100) <= suicideRate || !this.isConscious()){
-			map.removeActor(this);
-			return new SuicideAction(actorLocation);
-		}
-
-		for(Behaviour Behaviour : behaviours.values()) {
-			Action action = Behaviour.getAction(this, map);
-			if (action != null)
-				return action;
-		}
-
-		return new DoNothingAction();
+		return action;
 	}
-
-
 }
