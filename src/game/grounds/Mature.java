@@ -2,6 +2,7 @@ package game.grounds;
 
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
+import game.enemies.Koopa;
 import game.enums.Status;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class Mature extends Tree {
             growSprout(fertileGrounds);
         }
         if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
-//            location.addActor(new Koopa());
+            location.addActor(new Koopa());
         }
         if (Math.random() < DEATH_CHANCE) {
             location.setGround(new Dirt());
