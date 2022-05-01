@@ -22,11 +22,11 @@ public class Floor extends Ground {
 	/**
 	 * A method that makes this terrain impassible if the actor trying to enter is an enemy
 	 * @param actor the Actor to check
-	 * @return a boolean representing whether the actor trying to enter the Floor is an enemy
+	 * @return a boolean representing whether the actor trying to enter the Floor is not an enemy
 	 */
 	@Override
 	public boolean canActorEnter(Actor actor) {
-		return actor.hasCapability(Status.HOSTILE_TO_PLAYER);
+		return !actor.hasCapability(Status.HOSTILE_TO_PLAYER);
 	}
 
 	/**

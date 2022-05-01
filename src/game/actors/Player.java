@@ -37,8 +37,6 @@ public class Player extends Actor implements Resettable {
 		super(name, displayChar, hitPoints);
 		//add HOSTILE_TO_ENEMY capability  to player
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
-		//add CAN_ENTER_FLOOR capability to player
-		this.addCapability(Status.CAN_ENTER_FLOOR);
 		this.registerInstance();
 	}
 
