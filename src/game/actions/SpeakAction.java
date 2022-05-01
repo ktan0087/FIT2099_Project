@@ -60,12 +60,8 @@ public class SpeakAction extends Action {
         ArrayList<Integer> excludeMsgIndexList = new ArrayList<>(); // arraylist storing index of the message to be excluded from showing up in the menu
 
         // check for wrench in inventory
-        for (Item item : actor.getInventory()){
-            // if player has a wrench
-            if (item.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)){
-                excludeMsgIndexList.add(EXCLUDE_WRENCH_MSG);    // exclude the wrench message
-                break;
-            }
+        if (actor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)){
+            excludeMsgIndexList.add(EXCLUDE_WRENCH_MSG);    // exclude the wrench message
         }
 
         // check power star effect
