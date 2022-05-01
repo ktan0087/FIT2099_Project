@@ -109,7 +109,7 @@ public abstract class HighGround extends Ground {
      * Setter for this High Ground's jump chance
      * @param jumpChance the chance of a successful jump
      */
-    public void setJumpChance(double jumpChance) {
+    protected void setJumpChance(double jumpChance) {
         this.jumpChance = jumpChance;
     }
 
@@ -117,7 +117,7 @@ public abstract class HighGround extends Ground {
      * Setter for this High Ground's fall damage
      * @param fallDamage the damage from failing to jump onto this high ground
      */
-    public void setFallDamage(int fallDamage) {
+    protected void setFallDamage(int fallDamage) {
         this.fallDamage = fallDamage;
     }
 

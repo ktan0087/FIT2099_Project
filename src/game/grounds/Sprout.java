@@ -12,15 +12,17 @@ import game.enemies.Goomba;
  */
 public class Sprout extends Tree {
     /**
-     * The spawn chance related to this type of Tree
+     * The spawn chance related to a Sprout tree
      */
     private static final double SPAWN_CHANCE = 0.1;
+
     /**
-     * The jump chance related to this type of Tree
+     * The jump chance related to a Sprout tree (used for jumping)
      */
     private static final double JUMP_CHANCE = 0.9;
+
     /**
-     * The fall damage related to this type of Tree (used for jumping)
+     * The fall damage related to a Sprout tree (used for jumping)
      */
     private static final int FALL_DAMAGE = 10;
 
@@ -29,12 +31,12 @@ public class Sprout extends Tree {
      */
     public Sprout() {
         super('+'); // display character
-        setJumpChance(JUMP_CHANCE); // set jump chance of High Ground parent class based on Sprout's jump chance
-        setFallDamage(FALL_DAMAGE); // set fall damage of High Ground parent class based on Sprout's fall damage
+        setJumpChance(JUMP_CHANCE); // set jump chance of High Ground parent class based on a Sprout tree's jump chance
+        setFallDamage(FALL_DAMAGE); // set fall damage of High Ground parent class based on a Sprout tree's fall damage
     }
 
     /**
-     * A method that is called so that this Sprout can experience the passage of time
+     * A method that is called so that this Sprout tree can experience the passage of time
      * In this case to increment the age of the Sprout, handle the growth of the Sprout into the next stage
      * and handle the spawning of Goomba enemies at each turn
      * @param location The location of the Sprout
@@ -46,7 +48,7 @@ public class Sprout extends Tree {
         if (age == GROWTH_AGE) {
             location.setGround(new Sapling());
         }
-        // if there are no actors on this Sprout and there is a successful spawn attempt, add a new Goomba on the Sprout's location
+        // if there are no actors on this Sprout and there is a successful spawn attempt, spawn a new Goomba enemy on the Sprout's location
         if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
             location.addActor(new Goomba());
         }

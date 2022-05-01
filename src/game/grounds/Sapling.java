@@ -12,15 +12,17 @@ import game.items.Coin;
  */
 public class Sapling extends Tree {
     /**
-     * The spawn chance related to this type of Tree
+     * The spawn chance related to a Sapling tree
      */
     private static final double SPAWN_CHANCE = 0.1;
+
     /**
-     * The jump chance related to this type of Tree
+     * The jump chance related to a Sapling tree (used for jumping)
      */
     private static final double JUMP_CHANCE = 0.8;
+
     /**
-     * The fall damage related to this type of Tree (used for jumping)
+     * The fall damage related to a Sapling tree (used for jumping)
      */
     private static final int FALL_DAMAGE = 20;
 
@@ -29,12 +31,12 @@ public class Sapling extends Tree {
      */
     public Sapling() {
         super('t'); // display character
-        setJumpChance(JUMP_CHANCE); // set jump chance of High Ground parent class based on Sapling's jump chance
-        setFallDamage(FALL_DAMAGE); // set fall damage of High Ground parent class based on Sapling's fall damage
+        setJumpChance(JUMP_CHANCE); // set jump chance of High Ground parent class based on a Sapling tree's jump chance
+        setFallDamage(FALL_DAMAGE); // set fall damage of High Ground parent class based on a Sapling tree's fall damage
     }
 
     /**
-     * A method that is called so that this Sapling can experience the passage of time
+     * A method that is called so that this Sapling tree can experience the passage of time
      * In this case to increment the age of the Sapling, handle the growth of the Sapling into the next stage
      * and handle the spawning of $20 Coin items at each turn
      * @param location The location of the Sapling
