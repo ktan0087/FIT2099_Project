@@ -13,7 +13,7 @@ import game.items.Coin;
  * </h1>High Ground</h1>
  * The High Ground class represents a type of ground that can be jumped to
  * @author Mark Manlangit
- * @version 1
+ * @version 1.0
  * @since 30-04-2022
  */
 public abstract class HighGround extends Ground {

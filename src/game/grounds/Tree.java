@@ -8,7 +8,7 @@ import game.interfaces.Resettable;
  * </h1>Tree</h1>
  * The Tree class is a type of High Ground that is meant to represent a Tree in the game
  * @author Mark Manlangit
- * @version 1
+ * @version 1.0
  * @since 01-05-2022
  */
 public abstract class Tree extends HighGround implements Resettable {
@@ -37,7 +37,7 @@ public abstract class Tree extends HighGround implements Resettable {
     /**
      * A method that is called so that this Tree can experience the passage of time
      * In this case to check whether to turn this Tree into dirt during a reset
-     * @param location The location of the High Ground
+     * @param location The location of the Tree
      */
     @Override
     public void tick(Location location) {
