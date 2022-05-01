@@ -13,7 +13,13 @@ public class AttackBehaviour implements Behaviour {
 
     private Actor followedTarget;
 
-    // TODO: develop and use it to attack the player automatically.
+    /**
+     *
+     *
+     * @param actor the Actor acting
+     * @param map the GameMap containing the Actor
+     * @return action
+     */
     @Override
     public Action getAction(Actor actor, GameMap map) {
 
