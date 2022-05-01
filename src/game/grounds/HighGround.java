@@ -78,11 +78,11 @@ public abstract class HighGround extends Ground {
         if (Math.random() < currentJumpChance) {
             // if successful, move actor to high ground and set output message to success
             gameMap.moveActor(actor, to);
-            jumpMessage = "Successfully jumped onto the ";
+            jumpMessage = " successfully jumped onto the ";
         } else {
             // if not successful, reduce the actor's hp by fall damage amount and set output message to failure
             actor.hurt(fallDamage);
-            jumpMessage = "Jump failed! Received " + fallDamage + " damage falling from the ";
+            jumpMessage = " failed the jump! Received " + fallDamage + " damage falling from the ";
         }
         return jumpMessage;
     }
