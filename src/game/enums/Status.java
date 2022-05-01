@@ -13,8 +13,7 @@ public enum Status {
     FERTILE,
     UNDROPPABLE,
     CAN_SMASH_KOOPA_SHELL,
-    DORMANT,
-    DESTROYED,
+    CAN_ENTER_SHELL,
     AGGRESSIVE, //aggressive behaviour
     RESET
 }
