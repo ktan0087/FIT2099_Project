@@ -8,10 +8,24 @@ import game.enums.Status;
 import game.interfaces.Consumable;
 import game.managers.ConsumableItemManager;
 
+/**
+ * A class that Player uses to consume consumable magical items (e.g Power Star & SuperMushroom)
+ *
+ * @author Kennedy Tan
+ * @version 1.0
+ */
 public class ConsumeAction extends Action {
 
+    /**
+     * An instance of Consumable Interface
+     */
     private Consumable consumable;
 
+    /**
+     * Constructor.
+     *
+     * @param consumable object with type Consumable
+     */
     public ConsumeAction(Consumable consumable) {
         this.consumable = consumable;
     }
@@ -25,16 +39,19 @@ public class ConsumeAction extends Action {
      */
     @Override
     public String execute(Actor actor, GameMap map) {
-        //remove consumable from inventory
-        actor.removeItemFromInventory((Item) consumable);
+        //upcasting consumable
+        Item item = ((Item) consumable);
 
-        //invoke consumeMagicalItems method from consumable interface
+        //remove consumable from inventory once consumed by Player
+        actor.removeItemFromInventory(item);
+
+        //invoke consumeMagicalItems() method from consumable interface
         consumable.consumeMagicalItems(actor);
 
         //remove consumed items from consumableList
-        ConsumableItemManager.getInstance().removeConsumableItem((Item) consumable);
+        ConsumableItemManager.getInstance().removeConsumableItem(item);
 
-        //
+        //check if Player is in TALL status
         actor.hasCapability(Status.TALL);
 
         //return output to console
