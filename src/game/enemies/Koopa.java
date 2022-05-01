@@ -10,20 +10,30 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
+import game.actions.DestroyAction;
 import game.actions.SuicideAction;
+import game.behaviours.AttackBehaviour;
+import game.behaviours.WanderBehaviour;
 import game.enums.Status;
 import game.interfaces.Behaviour;
 import game.items.SuperMushroom;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Koopa is one of the enemy that will attack the Player
+ *
+ * @author Mark Manlangit
+ * @version 2.0
+ * */
 public class Koopa extends Enemy {
 
-    private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
-
     /**
-     * The intrinsice damage is set as a constant 30
+     * Behaviours Hash map to store priority and  behaviour
+     * */
+    private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
+    /**
+     * The intrinsic damage is set as a constant 30
      */
     private static final int INTRINSIC_DAMAGE = 30;
     /**
@@ -42,30 +52,26 @@ public class Koopa extends Enemy {
      * The hitpoints is set as a constant 100
      */
     public static final int HITPOINTS = 100;
-
-    private static boolean isDormant = false;
-    private static boolean isShellBroken = false;
+    /**
+     * The display char is set as a constant 'D'
+     */
+    private static final char DORMANT_CHAR = 'D';
 
     /**
-     * Constructor.
+     * Constructor. Add WanderBehaviour and AttackBehaviour to Koopa
      */
     public Koopa() {
-        super(NAME, DISPLAY_CHAR, 5);
-    }
-
-    /**
-     * Constructor.
-     * @param spawnLocation
-     */
-    public Koopa(Location spawnLocation) {
-        super(NAME, DISPLAY_CHAR, 5, spawnLocation);
+        super(NAME, DISPLAY_CHAR, HITPOINTS);
+        this.behaviours.put(10, new WanderBehaviour());
+        this.behaviours.put(8, new AttackBehaviour());
+        this.addCapability(Status.CAN_ENTER_SHELL);
     }
 
     /**
      * Creates and returns an intrinsic weapon.
      *
      * By default, the Actor 'punches' for 5 damage. Override this method to create
-     * an Actor with constant variable initialised before.
+     * an Intrinsic Weapon with constant variable initialised before.
      *
      * @return a freshly-instantiated IntrinsicWeapon
      * @see Actor getIntrinsicWeapon
@@ -76,24 +82,31 @@ public class Koopa extends Enemy {
     }
 
     /**
-     * Do some damage to the current Actor.
+     * Return actions taken by Koopa in different state
      *
-     * If the Actor's hitpoints go down to zero, it will be knocked out.
-     *
-     * @param points number of hitpoints to deduct.
-     */
+     * @param otherActor the Actor that performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return ActionList
+     * */
     @Override
-    public void hurt(int points){
-        super.hurt(points);
-
-        // check if Koopa is Conscious
-        if (!this.isConscious()){
-            // if Koopa is not conscious then remove from map
-            spawnLocation.map().removeActor(this);
-
-            // and add DormantKoopa actor at the same location
-            spawnLocation.addActor(new DormantKoopa(spawnLocation));
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        //check if PLayer is in HOSTILE_TO_ENEMY state
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+            //check if Koopa is conscious
+            if (this.isConscious()) {
+                //add AttackAction to Player to attack enemy
+                actions.add(new AttackAction(this, direction));
+            }
+            //check if Player has a wrench
+            else if (otherActor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)){
+                //add DestroyAction to Player to destroy Koopa shell
+                actions.add(new DestroyAction(this, direction));
+            }
         }
+
+        return actions;
     }
 
     /**
@@ -106,53 +119,28 @@ public class Koopa extends Enemy {
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         Location actorLocation = map.locationOf(this);
+        super.playTurn(actions, lastAction, map, display);
 
         //method used to remove Koopa when reset
         if (!(map.contains(this))){
             return new SuicideAction(actorLocation);
         }
 
-        //return action in super class
-        return super.playTurn(actions, lastAction, map, display);
-    }
-
-
-
-
-
-
-
-
-
-/*
-
-     public void dropSuperMushroom(){
-        if (spawnLocation != null){
-            spawnLocation.addItem(new SuperMushroom());
-            spawnLocation.map().removeActor(this);
-        }
-    }
-
- @Override
-    public char getDisplayChar(){
-        if (isDormant){
-            return DORMANT_CHAR;
-        }
-        return super.getDisplayChar();
-    }
-
-            //if Koopa is in dormant state
-        if (isDormant){
-            this.addCapability(Status.DORMANT);
+        //check if Koopa is in dormant state
+        if (!this.isConscious()){
+            //set display char to 'D'
+            this.setDisplayChar(DORMANT_CHAR);
             return new DoNothingAction();
         }
-        if (isShellBroken){
-            this.removeCapability(Status.DORMANT);
-            this.addCapability(Status.DESTROYED);
-            dropSuperMushroom();
+
+        //loop through behaviours and get action
+        for(Behaviour Behaviour : behaviours.values()) {
+            Action action = Behaviour.getAction(this, map);
+            if (action != null)
+                return action;
         }
 
-    */
-
-
+        //return action in super class
+        return new DoNothingAction();
+    }
 }

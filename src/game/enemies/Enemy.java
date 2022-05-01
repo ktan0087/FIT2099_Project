@@ -15,14 +15,22 @@ import game.enums.Status;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * An Enemy class represents the enemy actor with their actions and behaviours.
+ *
+ * @author Kennedy Tan
+ * @version 2.0
+ * */
 public abstract class Enemy extends Actor implements Resettable {
 
+    /**
+     * Behaviours Hash map to store priority and  behaviour
+     * */
     private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
-    protected Location spawnLocation;
 
     /**
      * Constructor.
+     *
      * @param name        the name of the Actor
      * @param displayChar the character that will represent the Actor in the display
      * @param hitPoints   the Actor's starting hit points
@@ -32,43 +40,7 @@ public abstract class Enemy extends Actor implements Resettable {
         this.addCapability(Status.HOSTILE_TO_PLAYER);
         this.behaviours.put(10, new WanderBehaviour());
         this.behaviours.put(8, new AttackBehaviour());
-    }
-
-    /**
-     * Constructor.
-     * @param name        the name of the Actor
-     * @param displayChar the character that will represent the Actor in the display
-     * @param hitPoints   the Actor's starting hit points
-     * @param spawnLocation
-     */
-    public Enemy(String name, char displayChar, int hitPoints, Location spawnLocation) {
-        super(name, displayChar, hitPoints);
-        this.addCapability(Status.HOSTILE_TO_PLAYER);  //can be attacked by player
-        this.spawnLocation = spawnLocation;
-        // add WanderBehaviour and AttackBehaviour to Enemy
-        this.behaviours.put(10, new WanderBehaviour());
-        this.behaviours.put(8, new AttackBehaviour());
         this.registerInstance();
-    }
-
-    /**
-     * Returns a new collection of the Actions that the otherActor can do to the current Actor.
-     *
-     * @param otherActor the Actor that might be performing attack
-     * @param direction  String representing the direction of the other Actor
-     * @param map        current GameMap
-     * @return A collection of Actions.
-     */
-    @Override
-    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
-        ActionList actions = new ActionList();
-        // check if actor has HOSTILE_TO_ENEMY status
-        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
-            //if yes, then add AttackAction to it
-            actions.add(new AttackAction(this, direction));
-        }
-
-        return actions;
     }
 
     /**
@@ -82,41 +54,38 @@ public abstract class Enemy extends Actor implements Resettable {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-
         //for resetting
         if (this.hasCapability(Status.RESET)){
             //remove actor from map
             map.removeActor(this);
         }
-
-        //check if enemy is Conscious
-        if(this.isConscious()) {
-            // if yes, take location of enemy
-            Location location = map.locationOf(this);
-            this.spawnLocation = map.at(location.x(), location.y());
-        }
-        else if (!this.isConscious()){
-            //if not, return DoNothingAction
-            return new DoNothingAction();
-        }
-
-        //loop through behaviours hashMap to get Action
-        for(Behaviour Behaviour : behaviours.values()) {
-            Action action = Behaviour.getAction(this, map);
-            //action not null, return action
-            if (action != null)
-                return action;
-        }
-
         return new DoNothingAction();
     }
 
     /**
-     * Override resetInstance class from ResetManager
-     * **/
+     * Returns a new collection of the Actions that the otherActor can do to the current Actor.
+     *
+     * @param otherActor the Actor that performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return A collection of Actions.
+     */
+    @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        // check if actor has HOSTILE_TO_ENEMY status
+        if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)){
+            //if yes, then add AttackAction to it
+            actions.add(new AttackAction(this, direction));
+        }
+        return actions;
+    }
+
+    /**
+     * Add RESET capability to enemy
+     * */
     @Override
     public void resetInstance() {
         this.addCapability(Status.RESET);
     }
-
 }

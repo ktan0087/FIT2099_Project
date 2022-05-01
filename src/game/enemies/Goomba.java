@@ -18,11 +18,17 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * A little fungus guy.
+ * A little fungus guy. Goomba is one of the enemy in the game.
+ *
+ * @author Kennedy Tan
+ * @version 1.0
  */
 public class Goomba extends Enemy {
-	private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
 
+	/**
+	 * Behaviours Hash map to store priority and  behaviour
+	 * */
+	private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
 	/**
 	 * The intrinsice damage is set as a constant 10
 	 */
@@ -43,27 +49,22 @@ public class Goomba extends Enemy {
 	 * The hitpoints is set as a constant 20
 	 */
 	public static final int HITPOINTS = 20;
-
+	/**
+	 * The suicide rate is set as a constant 10
+	 */
 	private final int SUICIDE_RATE = 10;
+	/**
+	 * The hitpoints is set as a constant 20
+	 */
 	private Random rand = new Random();
 
 	/**
-	 * Constructor.
+	 * Constructor. Add WanderBehaviour and AttackBehaviour to Goomba
 	 */
 	public Goomba() {
 		super(NAME, DISPLAY_CHAR, HITPOINTS);
-/*		this.behaviours.put(10, new WanderBehaviour());
-		this.behaviours.put(8, new AttackBehaviour());*/
-	}
-
-	/**
-	 * Constructor.
-	 * @param spawnLocation
-	 */
-	public Goomba(Location spawnLocation) {
-		super(NAME, DISPLAY_CHAR, HITPOINTS, spawnLocation);
-/*		this.behaviours.put(10, new WanderBehaviour());
-		this.behaviours.put(8, new AttackBehaviour());*/
+		this.behaviours.put(10, new WanderBehaviour());
+		this.behaviours.put(8, new AttackBehaviour());
 	}
 
 	/**
@@ -85,24 +86,33 @@ public class Goomba extends Enemy {
 	 * reset method and suicideAction
 	 *
 	 * @see Actor#playTurn(ActionList, Action, GameMap, Display)
+	 * @return Action
 	 */
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 		Location actorLocation = map.locationOf(this);
+		super.playTurn(actions, lastAction, map, display);
 
 		//method used to remove Goomba when reset
 		if (!(map.contains(this))){
 			return new SuicideAction(actorLocation);
 		}
 
-		//method used for goomba to suicide
+		//goomba will suicide with certain rate
 		if (rand.nextInt(100) <= SUICIDE_RATE || !this.isConscious()){
 			//remove goomba from map
 			map.removeActor(this);
 			return new SuicideAction(actorLocation);
 		}
 
-		//return action in super class
-		return super.playTurn(actions, lastAction, map, display);
+		//loop through behaviours and get actions
+		for(Behaviour Behaviour : behaviours.values()) {
+			Action action = Behaviour.getAction(this, map);
+			if (action != null)
+				return action;
+		}
+
+		//return action that do nothing
+		return new DoNothingAction();
 	}
 }

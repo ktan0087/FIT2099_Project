@@ -21,7 +21,10 @@ import game.managers.ConsumableItemManager;
 public class Player extends Actor implements Resettable {
 
 	private final Menu menu = new Menu();
-	private int turn = 10;
+	/**
+	 * number of turns needed to keep track of the player's invincible status
+	 */
+	private int noOfTurns = 10;
 
 	/**
 	 * Constructor.
@@ -32,75 +35,112 @@ public class Player extends Actor implements Resettable {
 	 */
 	public Player(String name, char displayChar, int hitPoints) {
 		super(name, displayChar, hitPoints);
+		//add HOSTILE_TO_ENEMY capability  to player
 		this.addCapability(Status.HOSTILE_TO_ENEMY);
+		//add CAN_ENTER_FLOOR capability to player
 		this.addCapability(Status.CAN_ENTER_FLOOR);
 		this.registerInstance();
 	}
 
+	/**
+	 * Select and return an action to perform on the current turn.
+	 *
+	 * @param actions    collection of possible Actions for this Actor
+	 * @param lastAction The Action this Actor took last turn. Can do interesting things in conjunction with Action.getNextAction()
+	 * @param map        the map containing the Actor
+	 * @param display    the I/O object to which messages may be written
+	 * @return the Action to be performed
+	 */
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 
+		//print Player's hitpoints to console
 		display.println(this +  printHp() + " at " + map.locationOf(this).getGround());
+		//print Player's wallet balance to console
 		display.println(this + "'s current balance: $" + Wallet.getBalance());
 
+		//reset action
 		if (!(ResetAction.getResetFlag())){
 			actions.add(new ResetAction());
 		}
-
+		//check if Player is invincible
 		if (hasCapability(Status.INVINCIBLE)){
 			display.println("Mario is INVINCIBLE!");
-			display.println("Mario consumes Power Star - " + turn +" turns remaining");
-			turn -= 1;
+			display.println("Mario consumes Power Star - " + noOfTurns +" turns remaining");
+			//decreament of number of turns every round
+			noOfTurns -= 1;
 		}
-
-		if (turn < 1){
+		//if number of turns is less than one
+		if (noOfTurns < 1){
+			//remove the invincible capability from Player
 			removeCapability(Status.INVINCIBLE);
 		}
 
+		//loop through item in Player's inventory
 		for (Item item: this.getInventory()){
+			//get consumable item from consumableList
 			Consumable consumable = ConsumableItemManager.getInstance().getConsumableItem(item);
+			//check if consumable item is null
 			if (consumable != null){
+				//add ConsumeAction to Player
+				actions.add(new ConsumeAction(consumable));
+				//if it's not, then check whether Player has invincible capability
 				if (hasCapability(Status.INVINCIBLE)){
-					actions.add(new ConsumeAction(consumable));
-					turn = 10;
-				}
-				else {
-					actions.add(new ConsumeAction(consumable));
+					//reset number of Turns to 10
+					noOfTurns = 10;
 				}
 			}
 		}
 
-		// Handle multi-turn Actions
+		// Handle multi-noOfTurns Actions (given)
 		if (lastAction.getNextAction() != null)
 			return lastAction.getNextAction();
 
-		// return/print the console menu
+		// return/print the console menu (given)
 		return menu.showMenu(this, actions, display);
 	}
 
+	/**
+	 * Get display character
+	 *
+	 * @return display character
+	 */
 	@Override
 	public char getDisplayChar(){
+		//check if Player is Invincible
 		if (this.hasCapability(Status.TALL)){
+			//change character to uppercase
 			return Character.toUpperCase(super.getDisplayChar());
 		} else {
+			//return normal character
 			return super.getDisplayChar();
 		}
 	}
 
+	/**
+	 * Reset Player's character back to normal
+	 */
 	@Override
 	public void resetInstance() {
+		//check if Player is Tall
 		if (this.hasCapability(Status.TALL)) {
 			this.setDisplayChar(Character.toLowerCase(super.getDisplayChar()));
 			this.removeCapability(Status.TALL);
 		}
-
+		//remove Invincible capability from Player
 		if (this.hasCapability(Status.INVINCIBLE)) {
 			this.removeCapability(Status.INVINCIBLE);
 		}
-
+		//reset Player's hitpoints
 		this.resetMaxHp(this.getMaxHp());
 	}
 
+	/**
+	 * Return Player's character back to normal if attacked by enemy,
+	 * also decrease the health of Player
+	 *
+	 * @param points number of hitpoints to deduct.
+	 */
 	@Override
 	public void hurt(int points){
 		if (this.hasCapability(Status.TALL)){
