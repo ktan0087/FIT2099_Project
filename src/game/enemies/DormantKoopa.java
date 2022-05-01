@@ -9,6 +9,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import game.actions.AttackAction;
+import game.actions.DestroyAction;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.enums.Status;
@@ -102,7 +103,7 @@ public class DormantKoopa extends Enemy {
         if(otherActor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)) {
             this.addCapability(Status.DESTROYED);
             //if yes, add AttackAction to actor
-            actions.add(new AttackAction(this,direction));
+            actions.add(new DestroyAction(this,direction));
         }
         return actions;
     }
