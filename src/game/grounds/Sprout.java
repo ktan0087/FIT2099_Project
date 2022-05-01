@@ -12,15 +12,15 @@ import game.enemies.Goomba;
  */
 public class Sprout extends Tree {
     /**
-     * The spawn chance related to this Tree
+     * The spawn chance related to this type of Tree
      */
     private static final double SPAWN_CHANCE = 0.1;
     /**
-     * The jump chance related to this Tree
+     * The jump chance related to this type of Tree
      */
     private static final double JUMP_CHANCE = 0.9;
     /**
-     * The fall damage related to this Tree (used for jumping)
+     * The fall damage related to this type of Tree (used for jumping)
      */
     private static final int FALL_DAMAGE = 10;
 
@@ -46,7 +46,7 @@ public class Sprout extends Tree {
         if (age == GROWTH_AGE) {
             location.setGround(new Sapling());
         }
-        // if there are no actors on this Sprout and there is a successful spawn attempt, add a new Goomba
+        // if there are no actors on this Sprout and there is a successful spawn attempt, add a new Goomba on the Sprout's location
         if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
             location.addActor(new Goomba());
         }
