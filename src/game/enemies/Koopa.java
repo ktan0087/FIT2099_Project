@@ -21,9 +21,28 @@ import java.util.Map;
 public class Koopa extends Enemy {
 
     private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
-    // constant variable for getIntrinsic Weapon method
+
+    /**
+     * The intrinsice damage is set as a constant 30
+     */
     private static final int INTRINSIC_DAMAGE = 30;
+    /**
+     * The damage verb is set as a constant String "punch"
+     */
     private static final String DAMAGE_VERB = "punch";
+    /**
+     * The name of Koopa is set as a constant String "Koopa"
+     */
+    public static final String NAME = "Koopa";
+    /**
+     * The display char is set as a constant char 'K'
+     */
+    public static final char DISPLAY_CHAR = 'K';
+    /**
+     * The hitpoints is set as a constant 100
+     */
+    public static final int HITPOINTS = 100;
+
     private static boolean isDormant = false;
     private static boolean isShellBroken = false;
 
@@ -31,7 +50,7 @@ public class Koopa extends Enemy {
      * Constructor.
      */
     public Koopa() {
-        super("Koopa", 'K', 5);
+        super(NAME, DISPLAY_CHAR, 5);
     }
 
     /**
@@ -39,7 +58,7 @@ public class Koopa extends Enemy {
      * @param spawnLocation
      */
     public Koopa(Location spawnLocation) {
-        super("Koopa", 'K', 5, spawnLocation);
+        super(NAME, DISPLAY_CHAR, 5, spawnLocation);
     }
 
     /**
@@ -72,14 +91,14 @@ public class Koopa extends Enemy {
             // if Koopa is not conscious then remove from map
             spawnLocation.map().removeActor(this);
 
-            // and add Dormant Koopa actor at the same location
+            // and add DormantKoopa actor at the same location
             spawnLocation.addActor(new DormantKoopa(spawnLocation));
-
         }
     }
 
     /**
-     * Figure out what to do next. Override playTurn method from Actor class
+     * Override playTurn method from Actor class to add in SuicideAction method
+     * and return super class's action
      *
      * @return action
      * @see Actor#playTurn(ActionList, Action, GameMap, Display)
@@ -93,6 +112,7 @@ public class Koopa extends Enemy {
             return new SuicideAction(actorLocation);
         }
 
+        //return action in super class
         return super.playTurn(actions, lastAction, map, display);
     }
 

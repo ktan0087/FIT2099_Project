@@ -22,10 +22,28 @@ import java.util.Random;
  */
 public class Goomba extends Enemy {
 	private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
-	// const variables for getIntrinsicWeapon method
-	private final int INTRINSIC_DAMAGE = 10;
-	private final String DAMAGE_VERB = "kicks";
-	// const variable for suicide rate
+
+	/**
+	 * The intrinsice damage is set as a constant 10
+	 */
+	private static final int INTRINSIC_DAMAGE = 10;
+	/**
+	 * The damage verb is set as a constant String "kick"
+	 */
+	private static final String DAMAGE_VERB = "kick";
+	/**
+	 * The name of Goomba is set as a constant String "Goomba"
+	 */
+	public static final String NAME = "Goomba";
+	/**
+	 * The display char is set as a constant char 'g'
+	 */
+	public static final char DISPLAY_CHAR = 'g';
+	/**
+	 * The hitpoints is set as a constant 20
+	 */
+	public static final int HITPOINTS = 20;
+
 	private final int SUICIDE_RATE = 10;
 	private Random rand = new Random();
 
@@ -33,9 +51,9 @@ public class Goomba extends Enemy {
 	 * Constructor.
 	 */
 	public Goomba() {
-		super("Goomba", 'g', 50);
-		this.behaviours.put(10, new WanderBehaviour());
-		this.behaviours.put(8, new AttackBehaviour());
+		super(NAME, DISPLAY_CHAR, HITPOINTS);
+/*		this.behaviours.put(10, new WanderBehaviour());
+		this.behaviours.put(8, new AttackBehaviour());*/
 	}
 
 	/**
@@ -43,9 +61,9 @@ public class Goomba extends Enemy {
 	 * @param spawnLocation
 	 */
 	public Goomba(Location spawnLocation) {
-		super("Goomba", 'g', 50, spawnLocation);
-		this.behaviours.put(10, new WanderBehaviour());
-		this.behaviours.put(8, new AttackBehaviour());
+		super(NAME, DISPLAY_CHAR, HITPOINTS, spawnLocation);
+/*		this.behaviours.put(10, new WanderBehaviour());
+		this.behaviours.put(8, new AttackBehaviour());*/
 	}
 
 	/**
@@ -63,7 +81,8 @@ public class Goomba extends Enemy {
 	}
 
 	/**
-	 * Figure out what to do next.
+	 * Figure out what to do next. Override playTurn method and add in
+	 * reset method and suicideAction
 	 *
 	 * @see Actor#playTurn(ActionList, Action, GameMap, Display)
 	 */
@@ -76,12 +95,14 @@ public class Goomba extends Enemy {
 			return new SuicideAction(actorLocation);
 		}
 
-		//method used for
+		//method used for goomba to suicide
 		if (rand.nextInt(100) <= SUICIDE_RATE || !this.isConscious()){
+			//remove goomba from map
 			map.removeActor(this);
 			return new SuicideAction(actorLocation);
 		}
 
+		//return action in super class
 		return super.playTurn(actions, lastAction, map, display);
 	}
 }

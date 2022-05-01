@@ -72,7 +72,7 @@ public class AttackAction extends Action {
 		// if actor in normal state
 		else {
 			if (target.hasCapability(Status.DORMANT)){
-				if (actor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)){
+				if (actor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL) && target.hasCapability(Status.DESTROYED)){
 					output = actor + " destroyed " + target + " with a wrench ";
 					target.hurt(Integer.MAX_VALUE);
 				}

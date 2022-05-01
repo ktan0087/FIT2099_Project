@@ -50,7 +50,6 @@ public class Player extends Actor implements Resettable {
 		if (hasCapability(Status.INVINCIBLE)){
 			display.println("Mario is INVINCIBLE!");
 			display.println("Mario consumes Power Star - " + turn +" turns remaining");
-
 			turn -= 1;
 		}
 
@@ -61,7 +60,13 @@ public class Player extends Actor implements Resettable {
 		for (Item item: this.getInventory()){
 			Consumable consumable = ConsumableItemManager.getInstance().getConsumableItem(item);
 			if (consumable != null){
-				actions.add(new ConsumeAction(consumable));
+				if (hasCapability(Status.INVINCIBLE)){
+					actions.add(new ConsumeAction(consumable));
+					turn = 10;
+				}
+				else {
+					actions.add(new ConsumeAction(consumable));
+				}
 			}
 		}
 
@@ -75,7 +80,11 @@ public class Player extends Actor implements Resettable {
 
 	@Override
 	public char getDisplayChar(){
-		return this.hasCapability(Status.TALL) ? Character.toUpperCase(super.getDisplayChar()): super.getDisplayChar();
+		if (this.hasCapability(Status.TALL)){
+			return Character.toUpperCase(super.getDisplayChar());
+		} else {
+			return super.getDisplayChar();
+		}
 	}
 
 	@Override
@@ -94,9 +103,11 @@ public class Player extends Actor implements Resettable {
 
 	@Override
 	public void hurt(int points){
-		super.hurt(points);
 		if (this.hasCapability(Status.TALL)){
 			this.removeCapability(Status.TALL);
+		}
+		else {
+			super.hurt(points);
 		}
 	}
 
