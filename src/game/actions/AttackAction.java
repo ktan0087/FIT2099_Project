@@ -57,9 +57,13 @@ public class AttackAction extends Action {
 
 			if (target.hasCapability(Status.DORMANT) && actor.hasCapability(Status.CAN_SMASH_KOOPA_SHELL)) {
 				output = actor + " destroyed " + target + " with a wrench ";
-				target.hurt(Integer.MAX_VALUE);
+				target.hurt(1000);
 			}
-			else{
+			else if(target.hasCapability(Status.HOSTILE_TO_PLAYER)){
+				output = actor + " killed " + target ;
+				target.hurt(1000);
+			}
+			else {
 				output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 				target.hurt(damage);
 			}

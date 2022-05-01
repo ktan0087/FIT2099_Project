@@ -22,11 +22,16 @@ import java.util.Random;
  */
 public class Goomba extends Enemy {
 	private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
+	// const variables for getIntrinsicWeapon method
 	private final int INTRINSIC_DAMAGE = 10;
 	private final String DAMAGE_VERB = "kicks";
+	// const variable for suicide rate
 	private final int SUICIDE_RATE = 10;
 	private Random rand = new Random();
 
+	/**
+	 * Constructor.
+	 */
 	public Goomba() {
 		super("Goomba", 'g', 50);
 		this.behaviours.put(10, new WanderBehaviour());
@@ -35,7 +40,7 @@ public class Goomba extends Enemy {
 
 	/**
 	 * Constructor.
-	 *
+	 * @param spawnLocation
 	 */
 	public Goomba(Location spawnLocation) {
 		super("Goomba", 'g', 50, spawnLocation);
@@ -44,31 +49,10 @@ public class Goomba extends Enemy {
 	}
 
 	/**
-	 * At the moment, we only make it can be attacked by Player.
-	 * You can do something else with this method.
-	 * @param otherActor the Actor that might perform an action.
-	 * @param direction  String representing the direction of the other Actor
-	 * @param map        current GameMap
-	 * @return list of actions
-	 * @see Status#HOSTILE_TO_ENEMY
-	 */
-	/*
-	@Override
-	public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
-		ActionList actions = new ActionList();
-		// it can be attacked only by the HOSTILE opponent, and this action will not attack the HOSTILE enemy back.
-		if(otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-			actions.add(new AttackAction(this,direction));
-		}
-		return actions;
-	}
-	*/
-
-	/**
 	 * Creates and returns an intrinsic weapon.
 	 *
 	 * By default, the Actor 'punches' for 5 damage. Override this method to create
-	 * an Actor with more interesting descriptions and/or different damage.
+	 * an Actor with description and damage using constant variable declared
 	 *
 	 * @return a freshly-instantiated IntrinsicWeapon
 	 * @see Actor getIntrinsicWeapon
@@ -80,29 +64,24 @@ public class Goomba extends Enemy {
 
 	/**
 	 * Figure out what to do next.
+	 *
 	 * @see Actor#playTurn(ActionList, Action, GameMap, Display)
 	 */
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
 		Location actorLocation = map.locationOf(this);
-		super.playTurn(actions, lastAction, map, display);
 
 		//method used to remove Goomba when reset
 		if (!(map.contains(this))){
 			return new SuicideAction(actorLocation);
 		}
 
+		//method used for
 		if (rand.nextInt(100) <= SUICIDE_RATE || !this.isConscious()){
 			map.removeActor(this);
 			return new SuicideAction(actorLocation);
 		}
 
-		for(Behaviour Behaviour : behaviours.values()) {
-			Action action = Behaviour.getAction(this, map);
-			if (action != null)
-				return action;
-		}
-
-		return new DoNothingAction();
+		return super.playTurn(actions, lastAction, map, display);
 	}
 }

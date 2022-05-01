@@ -4,6 +4,7 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.enums.Status;
 import game.interfaces.Consumable;
 import game.managers.ConsumableItemManager;
 
@@ -32,6 +33,9 @@ public class ConsumeAction extends Action {
 
         //remove consumed items from consumableList
         ConsumableItemManager.getInstance().removeConsumableItem((Item) consumable);
+
+        //
+        actor.hasCapability(Status.TALL);
 
         //return output to console
         return actor + " consume Magical Items: " + consumable;
