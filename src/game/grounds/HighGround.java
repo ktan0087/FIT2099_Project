@@ -130,7 +130,7 @@ public abstract class HighGround extends Ground {
     public void tick(Location location) {
         // if this high ground contains an actor and that actor has the Invincible buff
         if (location.containsAnActor() && location.getActor().hasCapability(Status.INVINCIBLE)) {
-            // set the ground at this location to dirt (destroy) and spawn a coin
+            // set the ground at this location to dirt (destroy) and spawn a $5 coin
             location.setGround(new Dirt());
             location.addItem(new Coin(5));
         }
