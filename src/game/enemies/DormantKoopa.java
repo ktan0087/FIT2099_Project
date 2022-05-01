@@ -1,7 +1,10 @@
 package game.enemies;
 
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
@@ -15,6 +18,14 @@ public class DormantKoopa extends Enemy {
         super("DormantKoopa", 'D', 1, location);
     }
 
+    @Override
+    public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        return new DoNothingAction();
+    }
+
+    /**
+     *
+     * **/
     @Override
     public void hurt(int points){
         super.hurt(points);
