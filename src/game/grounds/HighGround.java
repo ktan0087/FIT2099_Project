@@ -82,7 +82,7 @@ public abstract class HighGround extends Ground {
         } else {
             // if not successful, reduce the actor's hp by fall damage amount and set output message to failure
             actor.hurt(fallDamage);
-            jumpMessage = "Jump failed! Received " + fallDamage + " damage from the fall.";
+            jumpMessage = "Jump failed! Received " + fallDamage + " damage falling from the ";
         }
         return jumpMessage;
     }
