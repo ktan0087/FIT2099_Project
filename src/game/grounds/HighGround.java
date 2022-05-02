@@ -21,11 +21,11 @@ public abstract class HighGround extends Ground {
     /**
      * The jump chance of this high ground
      */
-    protected double jumpChance;
+    private double jumpChance;
     /**
      * The fall damage from this high ground
      */
-    protected int fallDamage;
+    private int fallDamage;
     /**
      * The maximum jump chance of a high ground
      */
