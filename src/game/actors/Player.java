@@ -83,7 +83,7 @@ public class Player extends Actor implements Resettable {
 				//add ConsumeAction to Player
 				actions.add(new ConsumeAction(consumable));
 				//if it's not, then check whether Player has invincible capability
-				if (hasCapability(Status.INVINCIBLE)){
+				if (hasCapability(Status.INVINCIBLE) && !(item.getDisplayChar() == '^')){
 					//reset number of Turns to 10
 					noOfTurns = 10;
 				}
