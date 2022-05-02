@@ -7,7 +7,6 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.grounds.HighGround;
 
 /**
- * </h1>JumpAction</h1>
  * A class that enables a player to attempt to jump to a High Ground
  * @author Mark Manlangit
  * @version 1.0

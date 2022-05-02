@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.positions.Ground;
 import game.enums.Status;
 
 /**
- * </h1>Dirt</h1>
  * A class that represents bare dirt.
  * @author Mark Manlangit
  * @version 1.0

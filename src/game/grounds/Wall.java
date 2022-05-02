@@ -1,7 +1,6 @@
 package game.grounds;
 
 /**
- * </h1>Wall</h1>
  * A class that represents a wall
  * @author Mark Manlangit
  * @version 1.0

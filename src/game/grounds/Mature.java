@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * </h1>Mature</h1>
  * The Mature class is a type of Tree that is meant to represent the last stage that a Tree can be in
  * @author Mark Manlangit
  * @version 1.0

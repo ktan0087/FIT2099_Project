@@ -10,7 +10,6 @@ import game.enums.Status;
 import game.items.Coin;
 
 /**
- * </h1>High Ground</h1>
  * The High Ground class represents a type of ground that can be jumped to
  * @author Mark Manlangit
  * @version 1.0

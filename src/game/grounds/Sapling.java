@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.positions.Location;
 import game.items.Coin;
 
 /**
- * </h1>Sapling</h1>
  * The Sapling class is a type of Tree that is meant to represent the second stage that a Tree can be in
  * @author Mark Manlangit
  * @version 1.0

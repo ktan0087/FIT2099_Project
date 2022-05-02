@@ -5,7 +5,6 @@ import game.enums.Status;
 import game.interfaces.Resettable;
 
 /**
- * </h1>Tree</h1>
  * The Tree class is a type of High Ground that is meant to represent a Tree in the game
  * @author Mark Manlangit
  * @version 1.0
