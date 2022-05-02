@@ -13,6 +13,7 @@ import game.actions.ResetAction;
 import game.enums.Status;
 import game.interfaces.Resettable;
 import game.interfaces.Consumable;
+import game.items.PowerStar;
 import game.managers.ConsumableItemManager;
 
 /**
@@ -21,11 +22,8 @@ import game.managers.ConsumableItemManager;
 public class Player extends Actor implements Resettable {
 
 	private final Menu menu = new Menu();
-	/**
-	 * number of turns needed to keep track of the player's invincible status
-	 */
-	private int noOfTurns = 10;
 
+	private static int noOfTurn = 10;
 	/**
 	 * Constructor.
 	 *
@@ -63,13 +61,15 @@ public class Player extends Actor implements Resettable {
 		}
 		//check if Player is invincible
 		if (hasCapability(Status.INVINCIBLE)){
+			//display message in console
 			display.println("Mario is INVINCIBLE!");
-			display.println("Mario consumes Power Star - " + noOfTurns +" turns remaining");
+			display.println("Mario consumes Power Star - " + PowerStar.getInvincibleTurn() +" turns remaining");
 			//decreament of number of turns every round
-			noOfTurns -= 1;
+			//noOfTurn -=1;
+			PowerStar.subtractInvincibleTurn();
 		}
 		//if number of turns is less than one
-		if (noOfTurns < 1){
+		if (PowerStar.getInvincibleTurn() < 1){
 			//remove the invincible capability from Player
 			removeCapability(Status.INVINCIBLE);
 		}
@@ -82,11 +82,6 @@ public class Player extends Actor implements Resettable {
 			if (consumable != null){
 				//add ConsumeAction to Player
 				actions.add(new ConsumeAction(consumable));
-				//if it's not, then check whether Player has invincible capability
-				if (hasCapability(Status.INVINCIBLE) && !(item.getDisplayChar() == '^')){
-					//reset number of Turns to 10
-					noOfTurns = 10;
-				}
 			}
 		}
 

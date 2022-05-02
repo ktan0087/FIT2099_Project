@@ -34,6 +34,10 @@ public class PowerStar extends Item implements Tradable, Consumable {
      * The number of turns for PowerStar to fade away
      */
     private int turn = 10;
+    /**
+     * The number of turns for Player to stay in Invincible mode
+     */
+    private static int invincibleTurn;
 
     /***
      * Constructor.
@@ -112,6 +116,23 @@ public class PowerStar extends Item implements Tradable, Consumable {
     public void consumeMagicalItems(Actor consumedActor) {
         consumedActor.addCapability(Status.INVINCIBLE);
         consumedActor.heal(200);
+        invincibleTurn = 10;
+    }
+
+    /**
+     * Get number of turns of player would be in Invincible state
+     *
+     * @return number of turns of player in Invincible state
+     */
+    public static int getInvincibleTurn(){
+        return invincibleTurn;
+    }
+
+    /**
+     * Decrement number of turns by 1
+     */
+    public static void subtractInvincibleTurn(){
+        invincibleTurn--;
     }
 
     /**

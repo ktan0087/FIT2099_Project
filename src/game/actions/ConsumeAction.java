@@ -51,9 +51,6 @@ public class ConsumeAction extends Action {
         //remove consumed items from consumableList
         ConsumableItemManager.getInstance().removeConsumableItem(item);
 
-        //check if Player is in TALL status
-        actor.hasCapability(Status.TALL);
-
         //return output to console
         return actor + " consume Magical Items: " + consumable;
     }
