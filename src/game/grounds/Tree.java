@@ -40,6 +40,7 @@ public abstract class Tree extends HighGround implements Resettable {
      */
     @Override
     public void tick(Location location) {
+        super.tick(location);
         // if tree has RESET status and succeeds in a reset
         if (this.hasCapability(Status.RESET) && Math.random() < RESET_CHANCE){
             location.setGround(new Dirt()); // convert to dirt
