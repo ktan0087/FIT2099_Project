@@ -12,6 +12,7 @@ public enum Status {
     POWER,
     FERTILE,
     UNDROPPABLE,
+    NON_REMOVABLE_FROM_INVENTORY,
     CAN_SMASH_KOOPA_SHELL,
     CAN_ENTER_SHELL,
     AGGRESSIVE, //aggressive behaviour
