@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.enums.Status;
 import game.interfaces.Consumable;
+import game.items.Bottle;
 import game.managers.ConsumableItemManager;
 
 /**
@@ -42,11 +43,15 @@ public class ConsumeAction extends Action {
         //upcasting consumable
         Item item = ((Item) consumable);
 
-        //remove consumable from inventory once consumed by Player
-        actor.removeItemFromInventory(item);
-
         //invoke consumeMagicalItems() method from consumable interface
         consumable.consumeMagicalItems(actor);
+
+        if (item.hasCapability(Status.NON_REMOVABLE_FROM_INVENTORY)){
+            return actor + " consume " + Bottle.drinkWater();
+        }
+
+        //remove consumable from inventory once consumed by Player
+        actor.removeItemFromInventory(item);
 
         //remove consumed items from consumableList
         ConsumableItemManager.getInstance().removeConsumableItem(item);
