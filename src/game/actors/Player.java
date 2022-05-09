@@ -7,12 +7,14 @@ import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.displays.Menu;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.Wallet;
 import game.actions.ConsumeAction;
 import game.actions.ResetAction;
 import game.enums.Status;
 import game.interfaces.Resettable;
 import game.interfaces.Consumable;
+import game.items.Bottle;
 import game.items.PowerStar;
 import game.managers.ConsumableItemManager;
 
@@ -24,6 +26,9 @@ public class Player extends Actor implements Resettable {
 	private final Menu menu = new Menu();
 
 	private static int noOfTurn = 10;
+
+	private static final int POWER_BASE_DAMAGE = 15;
+
 	/**
 	 * Constructor.
 	 *
@@ -76,6 +81,10 @@ public class Player extends Actor implements Resettable {
 
 		//loop through item in Player's inventory
 		for (Item item: this.getInventory()){
+			if (item.hasCapability(Status.NON_REMOVABLE_FROM_INVENTORY) && Bottle.getNumOfWaters() == 0){
+				continue;
+			}
+
 			//get consumable item from consumableList
 			Consumable consumable = ConsumableItemManager.getInstance().getConsumableItem(item);
 			//check if consumable item is null
@@ -142,6 +151,15 @@ public class Player extends Actor implements Resettable {
 		else {
 			super.hurt(points);
 		}
+	}
+
+	@Override
+	protected IntrinsicWeapon getIntrinsicWeapon() {
+		if (this.hasCapability(Status.POWER)){
+			IntrinsicWeapon intrinsicWeapon = super.getIntrinsicWeapon();
+			return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE, intrinsicWeapon.verb());
+		}
+		return super.getIntrinsicWeapon();
 	}
 
 }
