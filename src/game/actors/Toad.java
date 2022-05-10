@@ -7,8 +7,10 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.ObtainBottleAction;
 import game.actions.SpeakAction;
 import game.actions.TradeAction;
+import game.enums.Status;
 import game.interfaces.Tradable;
 import game.items.PowerStar;
 import game.items.SuperMushroom;
@@ -70,6 +72,10 @@ public class Toad extends Actor {
     @Override
     public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
         ActionList actions = new ActionList();
+
+        if (!otherActor.hasCapability(Status.NON_REMOVABLE_FROM_INVENTORY)) {
+            actions.add(new ObtainBottleAction());
+        }
 
         // add items that are tradable to the list
         addToTradableList();
