@@ -29,6 +29,8 @@ public class Player extends Actor implements Resettable {
 
 	private static final int POWER_BASE_DAMAGE = 15;
 
+	private int numOfPowerWaterConsumption = 0;
+
 	/**
 	 * Constructor.
 	 *
@@ -157,7 +159,8 @@ public class Player extends Actor implements Resettable {
 	protected IntrinsicWeapon getIntrinsicWeapon() {
 		if (this.hasCapability(Status.POWER)){
 			IntrinsicWeapon intrinsicWeapon = super.getIntrinsicWeapon();
-			return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE, intrinsicWeapon.verb());
+			numOfPowerWaterConsumption++;
+			return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE * numOfPowerWaterConsumption, intrinsicWeapon.verb());
 		}
 		return super.getIntrinsicWeapon();
 	}
