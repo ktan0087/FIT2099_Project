@@ -83,6 +83,10 @@ public class Application {
 			gameMap.at(42,11).addActor(new Toad());
 			gameMap.at(43,10).addItem(new SuperMushroom());
 			gameMap.at(41,10).addItem(new PowerStar());
+
+			// Add health and power fountain in map
+			gameMap.at(42, 8).setGround(new HealthFountain());
+			gameMap.at(43, 8).setGround(new PowerFountain());
 			world.run();
 
 	}
