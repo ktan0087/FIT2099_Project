@@ -5,9 +5,17 @@ import game.enums.Status;
 
 public class PowerWater extends Water {
     private static final String NAME = "Power water";
+    private static final char DISPLAY_CHAR = '`';
+
+    /***
+     * Constructor.
+     */
+    public PowerWater() {
+        super(NAME, DISPLAY_CHAR, false);
+    }
 
     @Override
-    public void drink(Actor actor) {
+    public void consumeMagicalItems(Actor actor) {
         actor.addCapability(Status.POWER);
     }
 
@@ -15,4 +23,5 @@ public class PowerWater extends Water {
     public String toString() {
         return NAME;
     }
+
 }
