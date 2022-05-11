@@ -40,7 +40,7 @@ public class Bottle extends Item implements Consumable {
 
     @Override
     public void consumeMagicalItems(Actor actor) {
-        waters.get(waters.size() - 1).drink(actor);
+        waters.get(waters.size() - 1).consumeMagicalItems(actor);
     }
 
     @Override
