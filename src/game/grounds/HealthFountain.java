@@ -16,6 +16,7 @@ public class HealthFountain extends Fountain {
      */
     public HealthFountain() {
         super(DISPLAY_CHAR);
+        this.addCapability(Status.HEAL);
     }
 
     @Override
