@@ -16,6 +16,7 @@ public class PowerFountain extends Fountain {
      */
     public PowerFountain() {
         super(DISPLAY_CHAR);
+        this.addCapability(Status.POWER);
     }
 
     @Override
