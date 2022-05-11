@@ -157,12 +157,13 @@ public class Player extends Actor implements Resettable {
 
 	@Override
 	protected IntrinsicWeapon getIntrinsicWeapon() {
+		IntrinsicWeapon intrinsicWeapon = super.getIntrinsicWeapon();
 		if (this.hasCapability(Status.POWER)){
-			IntrinsicWeapon intrinsicWeapon = super.getIntrinsicWeapon();
 			numOfPowerWaterConsumption++;
+			this.removeCapability(Status.POWER);
 			return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE * numOfPowerWaterConsumption, intrinsicWeapon.verb());
 		}
-		return super.getIntrinsicWeapon();
+		return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE * numOfPowerWaterConsumption, intrinsicWeapon.verb());
 	}
 
 }
