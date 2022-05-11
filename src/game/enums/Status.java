@@ -10,6 +10,7 @@ public enum Status {
     TALL, // use this status to tell that current instance has "grown".
     INVINCIBLE,
     POWER,
+    HEAL,
     FERTILE,
     INDESTRUCTIBLE,
     UNDROPPABLE,
