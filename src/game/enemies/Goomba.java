@@ -10,7 +10,9 @@ import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.SuicideAction;
 import game.behaviours.AttackBehaviour;
+import game.behaviours.ConsumeBehaviour;
 import game.behaviours.WanderBehaviour;
+import game.enums.Status;
 import game.interfaces.Behaviour;
 
 import java.util.HashMap;
@@ -58,6 +60,10 @@ public class Goomba extends Enemy {
 	 */
 	private Random rand = new Random();
 
+	private static final int POWER_BASE_DAMAGE = 15;
+
+	private int numOfPowerWaterConsumption = 0;
+
 	/**
 	 * Constructor. Add WanderBehaviour and AttackBehaviour to Goomba
 	 */
@@ -65,6 +71,7 @@ public class Goomba extends Enemy {
 		super(NAME, DISPLAY_CHAR, HITPOINTS);
 		this.behaviours.put(10, new WanderBehaviour());
 		this.behaviours.put(8, new AttackBehaviour());
+		this.behaviours.put(9, new ConsumeBehaviour());
 	}
 
 	/**
@@ -77,8 +84,12 @@ public class Goomba extends Enemy {
 	 * @see Actor getIntrinsicWeapon
 	 */
 	@Override
-	protected IntrinsicWeapon getIntrinsicWeapon(){
-		return new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);
+	protected IntrinsicWeapon getIntrinsicWeapon() {
+		IntrinsicWeapon intrinsicWeapon = new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);
+		if (this.hasCapability(Status.POWER)){
+			this.removeCapability(Status.POWER);
+		}
+		return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE * numOfPowerWaterConsumption, intrinsicWeapon.verb());
 	}
 
 	/**
@@ -90,6 +101,10 @@ public class Goomba extends Enemy {
 	 */
 	@Override
 	public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+		if (this.hasCapability(Status.POWER)) {
+			numOfPowerWaterConsumption++;
+		}
+
 		Location actorLocation = map.locationOf(this);
 		super.playTurn(actions, lastAction, map, display);
 
