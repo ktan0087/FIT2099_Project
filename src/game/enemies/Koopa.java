@@ -12,6 +12,7 @@ import game.actions.AttackAction;
 import game.actions.DestroyAction;
 import game.actions.SuicideAction;
 import game.behaviours.AttackBehaviour;
+import game.behaviours.ConsumeBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.enums.Status;
 import game.interfaces.Behaviour;
@@ -55,6 +56,10 @@ public class Koopa extends Enemy {
      */
     private static final char DORMANT_CHAR = 'D';
 
+    private static final int POWER_BASE_DAMAGE = 15;
+
+    private int numOfPowerWaterConsumption = 0;
+
     /**
      * Constructor. Add WanderBehaviour and AttackBehaviour to Koopa
      */
@@ -62,6 +67,7 @@ public class Koopa extends Enemy {
         super(NAME, DISPLAY_CHAR, HITPOINTS);
         this.behaviours.put(10, new WanderBehaviour());
         this.behaviours.put(8, new AttackBehaviour());
+        this.behaviours.put(9, new ConsumeBehaviour());
         this.addCapability(Status.CAN_ENTER_SHELL);
     }
 
@@ -75,8 +81,12 @@ public class Koopa extends Enemy {
      * @see Actor getIntrinsicWeapon
      */
     @Override
-    protected IntrinsicWeapon getIntrinsicWeapon(){
-        return new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);
+    protected IntrinsicWeapon getIntrinsicWeapon() {
+        IntrinsicWeapon intrinsicWeapon = new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);
+        if (this.hasCapability(Status.POWER)){
+            this.removeCapability(Status.POWER);
+        }
+        return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE * numOfPowerWaterConsumption, intrinsicWeapon.verb());
     }
 
     /**
@@ -116,6 +126,10 @@ public class Koopa extends Enemy {
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        if (this.hasCapability(Status.POWER)) {
+            numOfPowerWaterConsumption++;
+        }
+
         Location actorLocation = map.locationOf(this);
         super.playTurn(actions, lastAction, map, display);
 
