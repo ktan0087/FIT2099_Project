@@ -6,13 +6,18 @@ import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
+import game.actions.AttackAction;
+import game.actions.FireAttackAction;
+import game.actions.RescueAction;
+import game.enums.Status;
+import game.items.Key;
 
 public class PrincessPeach extends Actor {
 
     /**
      * The name is set as a constant "PrincessPeach" / whatever you think is appropriate
      */
-    private static final String NAME = "PrincessPeach";
+    private static final String NAME = "Princess Peach";
 
     /**
      * The display character of toad is set as a constant 'P'
@@ -24,6 +29,24 @@ public class PrincessPeach extends Actor {
      */
     public PrincessPeach() {
         super(NAME, PRINCESS_PEACH_CHAR, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Return actions taken by PrincessPeach
+     *
+     * @param otherActor the Actor that performing attack
+     * @param direction  String representing the direction of the other Actor
+     * @param map        current GameMap
+     * @return ActionList
+     * */
+    @Override
+    public ActionList allowableActions(Actor otherActor, String direction, GameMap map) {
+        ActionList actions = new ActionList();
+        if (otherActor.hasCapability(Status.VICTORY)) {
+            actions.add(new RescueAction(this));
+        }
+
+        return actions;
     }
 
     /**
@@ -39,4 +62,6 @@ public class PrincessPeach extends Actor {
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         return new DoNothingAction();
     }
+
+
 }
