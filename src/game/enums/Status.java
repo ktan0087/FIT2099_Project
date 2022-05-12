@@ -17,6 +17,10 @@ public enum Status {
     NON_REMOVABLE_FROM_INVENTORY,
     CAN_SMASH_KOOPA_SHELL,
     CAN_ENTER_SHELL,
+    CAN_ATTACK_WITH_FIRE,
+    CAN_ENTER_HIGH_GROUND,
+    VICTORY,
+    CAN_DROP_KEY,
     AGGRESSIVE, //aggressive behaviour
     RESET
 }
