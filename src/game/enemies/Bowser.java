@@ -1,16 +1,20 @@
 package game.enemies;
 
+import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actions.DoNothingAction;
 import edu.monash.fit2099.engine.actors.Actor;
+import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
-import game.actions.FireAttackAction;
 import game.behaviours.AttackBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.enums.Status;
 import game.interfaces.Behaviour;
-import game.weapons.Fire;
+import game.items.Key;
+
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +46,10 @@ public class Bowser extends Enemy{
      */
     public static final int HITPOINTS = 500;
 
+    private static final int POWER_BASE_DAMAGE = 15;
+
+    private int numOfPowerWaterConsumption = 0;
+
     /**
      * Constructor.
      */
@@ -49,7 +57,7 @@ public class Bowser extends Enemy{
         super(NAME, DISPLAY_CHAR, HITPOINTS);
         this.behaviours.put(10, new WanderBehaviour());
         this.behaviours.put(8, new AttackBehaviour());
-        addItemToInventory(new Fire());
+        this.addCapability(Status.CAN_ATTACK_WITH_FIRE);
         this.registerInstance();
     }
 
@@ -57,19 +65,22 @@ public class Bowser extends Enemy{
      * Creates and returns an intrinsic weapon.
      *
      * By default, the Actor 'punches' for 5 damage. Override this method to create
-     * an Intrinsic Weapon with constant variable initialised before.
+     * an Actor with description and damage using constant variable declared
      *
      * @return a freshly-instantiated IntrinsicWeapon
      * @see Actor getIntrinsicWeapon
      */
     @Override
-    protected IntrinsicWeapon getIntrinsicWeapon(){
-        return new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);
+    protected IntrinsicWeapon getIntrinsicWeapon() {
+        IntrinsicWeapon intrinsicWeapon = new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);
+        if (this.hasCapability(Status.POWER)){
+            this.removeCapability(Status.POWER);
+        }
+        return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE * numOfPowerWaterConsumption, intrinsicWeapon.verb());
     }
 
     /**
-     * Return actions taken by Bowser in different state
-     *
+     * Return actions taken by Bowser
      * @param otherActor the Actor that performing attack
      * @param direction  String representing the direction of the other Actor
      * @param map        current GameMap
@@ -82,19 +93,41 @@ public class Bowser extends Enemy{
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             //check if Bowser is conscious
             if (this.isConscious()) {
-                //check if Player has capability to attack with fire
-                if (otherActor.hasCapability(Status.CAN_ATTACK_WITH_FIRE)){
-                    //add FireAttackAction to Player
-                    actions.add(new FireAttackAction(this, direction));
-                }
-                else {
-                    //add AttackAction to Player to attack enemy
-                    actions.add(new AttackAction(this, direction));
-                }
+                actions.add(new AttackAction(this, direction));
+            }
+            //TODO: drop key on actor's location
+            else {
+                map.locationOf(this).addItem(new Key());
+                //remove target from map
+                map.removeActor(this);
             }
         }
-
         return actions;
+    }
+
+    /**
+     * Figure out what to do next. Override playTurn method and add in
+     * reset method and suicideAction
+     *
+     * @see Actor#playTurn(ActionList, Action, GameMap, Display)
+     * @return Action
+     */
+    @Override
+    public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+        if (this.hasCapability(Status.POWER)) {
+            numOfPowerWaterConsumption++;
+        }
+        super.playTurn(actions, lastAction, map, display);
+
+        //loop through behaviours and get actions
+        for(Behaviour Behaviour : behaviours.values()) {
+            Action action = Behaviour.getAction(this, map);
+            if (action != null)
+                return action;
+        }
+
+        //return action that do nothing
+        return new DoNothingAction();
     }
 
     /**
