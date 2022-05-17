@@ -7,6 +7,7 @@ import edu.monash.fit2099.engine.actions.ActionList;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.enums.Status;
 
@@ -82,6 +83,26 @@ public class AttackAction extends Action {
 				output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 				target.hurt(damage);
 			}
+		}
+
+		if (actor.hasCapability(Status.CAN_ATTACK_WITH_FIRE)) {
+			if (Math.random() < 0.5) {
+				if (target.hasCapability(Status.HOSTILE_TO_ENEMY) || target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+					output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
+					target.hurt(damage);
+
+					Location location = map.locationOf(target);
+					boolean isBurning = location.getGround().hasCapability(Status.IS_BURNING);
+					if (!isBurning) {
+						location.getGround().addCapability(Status.IS_BURNING);
+						output += System.lineSeparator() + actor + " attacks " + target + " with fire! ";
+						output += System.lineSeparator() + "The ground is on fire!";
+					}
+				}
+			}
+		}
+		else {
+			return actor + " misses " + target + ".";
 		}
 
 		//check if target is conscious
