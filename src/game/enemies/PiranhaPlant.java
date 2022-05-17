@@ -1,6 +1,7 @@
 package game.enemies;
 
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
+import game.enums.Status;
 import game.interfaces.Behaviour;
 
 import java.util.HashMap;
@@ -13,29 +14,25 @@ public class PiranhaPlant extends Enemy {
      * */
     private final Map<Integer, Behaviour> behaviours = new HashMap<>(); // priority, behaviour
     /**
-     * The intrinsice damage is set as a constant 10
+     * The intrinsice damage is set as a constant 90
      */
-    private static final int INTRINSIC_DAMAGE = 10;
+    private static final int INTRINSIC_DAMAGE = 90;
     /**
-     * The damage verb is set as a constant String "kick"
+     * The damage verb is set as a constant String "chomps"
      */
-    private static final String DAMAGE_VERB = "kick";
+    private static final String DAMAGE_VERB = "chomps";
     /**
-     * The name of Goomba is set as a constant String "Goomba"
+     * The name of Piranha Plant is set as a constant String "Piranha Plant"
      */
     public static final String NAME = "Piranha Plant";
     /**
-     * The display char is set as a constant char 'g'
+     * The display char is set as a constant char 'Y'
      */
     public static final char DISPLAY_CHAR = 'Y';
     /**
-     * The hitpoints is set as a constant 20
+     * The hitpoints is set as a constant 150
      */
-    public static final int HITPOINTS = 20;
-    /**
-     * The suicide rate is set as a constant 10
-     */
-    private final int SUICIDE_RATE = 10;
+    public static final int HITPOINTS = 150;
     /**
      * The hitpoints is set as a constant 20
      */
@@ -43,6 +40,7 @@ public class PiranhaPlant extends Enemy {
 
     public PiranhaPlant() {
         super(NAME, DISPLAY_CHAR, HITPOINTS);
+        this.registerInstance();
     }
 
     @Override
@@ -50,4 +48,12 @@ public class PiranhaPlant extends Enemy {
         return new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);
     }
 
+    /**
+     * Reset Piranha Plant hp
+     */
+    @Override
+    public void resetInstance() {
+        this.increaseMaxHp(50);
+        this.heal(getMaxHp());
+    }
 }
