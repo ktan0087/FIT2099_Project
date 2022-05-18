@@ -23,5 +23,6 @@ public enum Status {
     VICTORY,
     CAN_DROP_KEY,
     AGGRESSIVE, //aggressive behaviour
-    RESET
+    RESET,
+    BLINKABLE
 }
