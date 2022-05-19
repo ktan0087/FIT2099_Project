@@ -9,10 +9,7 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.World;
-import game.actors.Player;
-import game.actors.PrincessPeach;
-import game.actors.Toad;
-import game.actors.Yoshi;
+import game.actors.*;
 import game.enemies.Bowser;
 import game.enemies.FlyingKoopa;
 import game.enemies.Koopa;
@@ -98,6 +95,9 @@ public class Application {
 
 			// Add Yoshi
 			gameMap.at(43,10).addActor(new Yoshi());
+
+			// Add Luigi
+			gameMap.at(0, 16).addActor(new Luigi());
 			world.run();
 	}
 
