@@ -20,8 +20,8 @@ public enum Status {
     CAN_ATTACK_WITH_FIRE,
     CAN_ENTER_HIGH_GROUND,
     IS_BURNING,
+    NOT_FOLLOWING,
     VICTORY,
-    CAN_DROP_KEY,
     AGGRESSIVE, //aggressive behaviour
     RESET,
     BLINKABLE
