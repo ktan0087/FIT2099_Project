@@ -41,7 +41,7 @@ public class Dirt extends Ground {
 			this.setDisplayChar(fireChar);
 			if (location.containsAnActor()){
 				edu.monash.fit2099.engine.actors.Actor target = location.getActor();
-				if (target.hasCapability(Status.HOSTILE_TO_ENEMY) || target.hasCapability(Status.HOSTILE_TO_ENEMY)){
+				if (target.hasCapability(Status.HOSTILE_TO_ENEMY) || target.hasCapability(Status.HOSTILE_TO_PLAYER)){
 					display.println(target + " is on fire, receives 20 damage! ");
 					target.hurt(20);
 				}
