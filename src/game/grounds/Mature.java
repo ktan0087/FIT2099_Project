@@ -2,6 +2,7 @@ package game.grounds;
 
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.Location;
+import game.enemies.FlyingKoopa;
 import game.enemies.Koopa;
 import game.enums.Status;
 
@@ -62,7 +63,11 @@ public class Mature extends Tree {
         }
         // if there are no actors on this Mature tree and there is a successful spawn attempt, spawn a new Koopa enemy on the Mature tree's location
         if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
-            location.addActor(new Koopa());
+            if (Math.random() < 0.5) {
+                location.addActor(new Koopa());
+            }
+            else
+                location.addActor(new FlyingKoopa());
         }
         // if there is a successful death attempt, the Mature tree will wither and die (turn into a new Dirt ground)
         if (Math.random() < DEATH_CHANCE) {
