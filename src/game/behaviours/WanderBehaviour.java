@@ -8,6 +8,7 @@ import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.enums.Status;
 import game.interfaces.Behaviour;
 
 public class WanderBehaviour extends Action implements Behaviour {
@@ -28,7 +29,7 @@ public class WanderBehaviour extends Action implements Behaviour {
 		
 		for (Exit exit : map.locationOf(actor).getExits()) {
             Location destination = exit.getDestination();
-            if (destination.canActorEnter(actor)) {
+            if (destination.canActorEnter(actor) || actor.hasCapability(Status.CAN_ENTER_HIGH_GROUND)) {
             	actions.add(exit.getDestination().getMoveAction(actor, "around", exit.getHotKey()));
             }
         }

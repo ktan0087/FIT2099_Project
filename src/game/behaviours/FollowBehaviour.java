@@ -6,6 +6,7 @@ import edu.monash.fit2099.engine.positions.Exit;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.actions.MoveActorAction;
+import game.enums.Status;
 import game.interfaces.Behaviour;
 
 /**
@@ -37,7 +38,7 @@ public class FollowBehaviour implements Behaviour {
 		int currentDistance = distance(here, there);
 		for (Exit exit : here.getExits()) {
 			Location destination = exit.getDestination();
-			if (destination.canActorEnter(actor)) {
+			if (destination.canActorEnter(actor) || actor.hasCapability(Status.CAN_ENTER_HIGH_GROUND)) {
 				int newDistance = distance(destination, there);
 				if (newDistance < currentDistance) {
 					return new MoveActorAction(destination, exit.getName());
