@@ -25,5 +25,6 @@ public enum Status {
     VICTORY,
     AGGRESSIVE, //aggressive behaviour
     RESET,
-    BLINKABLE
+    BLINKABLE,
+    INJURED
 }
