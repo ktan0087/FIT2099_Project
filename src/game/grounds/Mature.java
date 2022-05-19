@@ -36,6 +36,7 @@ public class Mature extends Tree {
      */
     private static final int FALL_DAMAGE = 30;
 
+    private static final double SPAWN_KOOPAS_RATE = 0.5;
     /**
      * A constructor for the Mature class
      */
@@ -63,7 +64,7 @@ public class Mature extends Tree {
         }
         // if there are no actors on this Mature tree and there is a successful spawn attempt, spawn a new Koopa enemy on the Mature tree's location
         if (Math.random() < SPAWN_CHANCE && !location.containsAnActor()) {
-            if (Math.random() < 0.5) {
+            if (Math.random() < SPAWN_KOOPAS_RATE) {
                 location.addActor(new Koopa());
             }
             else

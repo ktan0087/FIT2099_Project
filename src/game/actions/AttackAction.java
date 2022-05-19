@@ -31,6 +31,8 @@ public class AttackAction extends Action {
 	 */
 	protected Random rand = new Random();
 
+	private static final double fireChance = 0.5;
+
 	/**
 	 * Constructor.
 	 * 
@@ -87,7 +89,7 @@ public class AttackAction extends Action {
 		}
 
 		if (actor.hasCapability(Status.CAN_ATTACK_WITH_FIRE)) {
-			if (Math.random() < 0.5) {
+			if (Math.random() < fireChance) {
 				if (target.hasCapability(Status.HOSTILE_TO_ENEMY) || target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
 					output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 					target.hurt(damage);
