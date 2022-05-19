@@ -45,7 +45,6 @@ public class PrincessPeach extends Actor {
         if (otherActor.hasCapability(Status.VICTORY)) {
             actions.add(new RescueAction(this));
         }
-
         return actions;
     }
 
@@ -62,6 +61,5 @@ public class PrincessPeach extends Actor {
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         return new DoNothingAction();
     }
-
 
 }
