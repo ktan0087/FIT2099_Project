@@ -33,10 +33,15 @@ public class Luigi extends Actor implements Resettable {
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
         if (this.hasCapability(Status.RESET)){
             this.removeCapability(Status.RESET);
-            if (!map.at(map.locationOf(this).x(), PatrolBehaviour.getMaxYCoord()).containsAnActor()) {
-                map.moveActor(this, map.at(map.locationOf(this).x(), PatrolBehaviour.getMaxYCoord()));
+
+            int xCoord = map.locationOf(this).x();
+
+            if (map.at(map.locationOf(this).x(), PatrolBehaviour.getMaxYCoord()).containsAnActor()){
+                map.removeActor(map.at(map.locationOf(this).x(), PatrolBehaviour.getMaxYCoord()).getActor());
             }
-            display.println(this + " moves back to original position (" + map.locationOf(this).x() + ", " + PatrolBehaviour.getMaxYCoord() + ")");
+
+            map.moveActor(this, map.at(xCoord, PatrolBehaviour.getMaxYCoord()));
+            display.println(this + " moves back to original position (" + xCoord + ", " + PatrolBehaviour.getMaxYCoord() + ")");
             return new DoNothingAction();
         }
 
