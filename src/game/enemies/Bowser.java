@@ -58,6 +58,7 @@ public class Bowser extends Enemy{
         this.behaviours.put(10, new WanderBehaviour());
         this.behaviours.put(8, new AttackBehaviour());
         this.addCapability(Status.CAN_ATTACK_WITH_FIRE);
+        this.addCapability(Status.CAN_DROP_KEY);
         this.registerInstance();
     }
 
@@ -91,15 +92,14 @@ public class Bowser extends Enemy{
         ActionList actions = new ActionList();
         //check if PLayer is in HOSTILE_TO_ENEMY state
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+/*            if (!this.isConscious()) {
+                //TODO: drop key on actor's location
+                map.removeActor(this);
+                map.locationOf(this).addItem(new Key());
+            }*/
             //check if Bowser is conscious
             if (this.isConscious()) {
                 actions.add(new AttackAction(this, direction));
-            }
-            //TODO: drop key on actor's location
-            else {
-                map.locationOf(this).addItem(new Key());
-                //remove target from map
-                map.removeActor(this);
             }
         }
         return actions;
