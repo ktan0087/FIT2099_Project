@@ -10,7 +10,12 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
+import game.actors.PrincessPeach;
 import game.actors.Toad;
+import game.enemies.Bowser;
+import game.enemies.FlyingKoopa;
+import game.enemies.Koopa;
+import game.enemies.PiranhaPlant;
 import game.grounds.*;
 import game.items.PowerStar;
 import game.items.SuperMushroom;
@@ -83,12 +88,13 @@ public class Application {
 			gameMap.at(42,11).addActor(new Toad());
 			gameMap.at(43,10).addItem(new SuperMushroom());
 			gameMap.at(41,10).addItem(new PowerStar());
+			lavaZone.at(10, 2).addActor(new Bowser());
+			lavaZone.at(11, 2).addActor(new PrincessPeach());
 
 			// Add health and power fountain in map
 			gameMap.at(42, 8).setGround(new HealthFountain());
 			gameMap.at(43, 8).setGround(new PowerFountain());
 			world.run();
-
 	}
 
 	/**
