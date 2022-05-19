@@ -24,15 +24,13 @@ public class WarpPipe extends HighGround{
 
 
     /**
-     * The location and GameMap of the master warp pipe in the lava zone
+     * The location of the master warp pipe in the lava zone
      */
     private static Location masterWarpLocation;
-    private static GameMap masterWarpMap;
     /**
-     * The location and GameMap of the original warp pipe that the player will return to
+     * The location of the original warp pipe that the player will return to
      */
     private static Location returnLocation;
-    private static GameMap returnMap;
 
     /**
      * A constructor for the Warp pipe class
@@ -67,26 +65,16 @@ public class WarpPipe extends HighGround{
         return masterWarpLocation;
     }
 
-    public static GameMap getMasterWarpMap() {
-        return masterWarpMap;
-    }
-
-    public static void setMasterWarp(Location masterWarpLocation, GameMap map) {
+    public static void setMasterWarp(Location masterWarpLocation) {
         WarpPipe.masterWarpLocation = masterWarpLocation;
-        WarpPipe.masterWarpMap = map;
     }
 
     public static Location getReturnLocation() {
         return returnLocation;
     }
 
-    public static GameMap getReturnMap() {
-        return returnMap;
-    }
-
-    public static void setReturn(Location returnLocation, GameMap originalMap) {
+    public static void setReturnWarp(Location returnLocation) {
         WarpPipe.returnLocation = returnLocation;
-        WarpPipe.returnMap = originalMap;
     }
 
     /**

@@ -12,17 +12,17 @@ public class TeleportAction extends Action{
     @Override
     public String execute(Actor actor, GameMap map) {
         String message;
-        GameMap lavaMap = WarpPipe.getMasterWarpMap();
         Location masterWarp = WarpPipe.getMasterWarpLocation();
-        if (!map.equals(lavaMap)) {
-            if (lavaMap.isAnActorAt(masterWarp)) {
-                lavaMap.removeActor(masterWarp.getActor());
+        Location returnWarp = WarpPipe.getReturnLocation();
+        if (!map.equals(masterWarp.map())) {
+            if (masterWarp.map().isAnActorAt(masterWarp)) {
+                masterWarp.map().removeActor(masterWarp.getActor());
             }
-            WarpPipe.setReturn(map.locationOf(actor), map);
-            lavaMap.moveActor(actor, masterWarp);
+            WarpPipe.setReturnWarp(map.locationOf(actor));
+            masterWarp.map().moveActor(actor, masterWarp);
             message = "Teleported to Lava Zone";
         } else {
-            WarpPipe.getReturnMap().moveActor(actor, WarpPipe.getReturnLocation());
+            returnWarp.map().moveActor(actor, returnWarp);
             message = "Teleported back to original world";
         }
         return message;
@@ -31,7 +31,7 @@ public class TeleportAction extends Action{
     @Override
     public String menuDescription(Actor actor) {
         String message;
-        if (WarpPipe.getMasterWarpMap().contains(actor)) {
+        if (WarpPipe.getMasterWarpLocation().map().contains(actor)) {
             message = "Teleport back to original world";
         } else {
             message = "Teleport to Lava Zone";

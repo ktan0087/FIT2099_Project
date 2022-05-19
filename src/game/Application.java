@@ -82,7 +82,7 @@ public class Application {
 			world.addPlayer(mario, gameMap.at(42, 10));
 
 			// Assign master warp in second map
-			WarpPipe.setMasterWarp(lavaZone.at(0,0), lavaZone);
+			WarpPipe.setMasterWarp(lavaZone.at(0,0));
 
 			// Add actor and items in map
 			gameMap.at(42,11).addActor(new Toad());
