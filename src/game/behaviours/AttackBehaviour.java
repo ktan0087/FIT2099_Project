@@ -29,6 +29,7 @@ public class AttackBehaviour implements Behaviour {
                 if (destination.containsAnActor()) {
                     Actor target = destination.getActor();
                     if (target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+                        target.addCapability(Status.INJURED);
                         followedTarget = target;
                         actor.addCapability(Status.AGGRESSIVE);
                         return new AttackAction(target, exit.getName());
