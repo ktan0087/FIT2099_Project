@@ -19,6 +19,7 @@ public enum Status {
     CAN_ENTER_SHELL,
     CAN_ATTACK_WITH_FIRE,
     CAN_ENTER_HIGH_GROUND,
+    CAN_DROP_KEY,
     IS_BURNING,
     NOT_FOLLOWING,
     VICTORY,
