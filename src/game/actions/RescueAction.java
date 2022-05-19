@@ -4,7 +4,6 @@ import edu.monash.fit2099.engine.actions.Action;
 import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.positions.GameMap;
 import game.enums.Status;
-import game.items.SuperMushroom;
 
 public class RescueAction extends Action {
     /**
@@ -34,6 +33,7 @@ public class RescueAction extends Action {
         String output;
         output = "Congratulations! " + target + " has been saved.";
         actor.removeCapability(Status.VICTORY);
+        map.removeActor(actor);
         return output;
     }
 
