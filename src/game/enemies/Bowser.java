@@ -45,6 +45,9 @@ public class Bowser extends Enemy{
 
     private int numOfPowerWaterConsumption = 0;
 
+    private static final int BOWSER_ORI_POSITION_X = 10;
+
+    private static final int BOWSER_ORI_POSITION_Y = 2;
     /**
      * Constructor.
      */
@@ -103,6 +106,12 @@ public class Bowser extends Enemy{
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+        if (this.hasCapability(Status.RESET)){
+            map.removeActor(this);
+            map.addActor(new Bowser(), map.at(BOWSER_ORI_POSITION_X, BOWSER_ORI_POSITION_Y));
+        }
+
         if (this.hasCapability(Status.POWER)) {
             numOfPowerWaterConsumption++;
         }
@@ -125,6 +134,7 @@ public class Bowser extends Enemy{
     public void resetInstance() {
         //reset Bowser's hitpoints
         this.resetMaxHp(this.getMaxHp());
+        this.addCapability(Status.RESET);
     }
 
 }

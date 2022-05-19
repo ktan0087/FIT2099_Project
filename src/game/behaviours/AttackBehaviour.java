@@ -23,14 +23,16 @@ public class AttackBehaviour implements Behaviour {
     @Override
     public Action getAction(Actor actor, GameMap map) {
 
-        for(Exit exit : map.locationOf(actor).getExits()){
-            Location destination = exit.getDestination();
-            if (destination.containsAnActor()){
-                Actor target = destination.getActor();
-                if (target.hasCapability(Status.HOSTILE_TO_ENEMY)){
-                    followedTarget = target;
-                    actor.addCapability(Status.AGGRESSIVE);
-                    return new AttackAction(target, exit.getName());
+        if (map.locationOf(actor) != null) {
+            for (Exit exit : map.locationOf(actor).getExits()) {
+                Location destination = exit.getDestination();
+                if (destination.containsAnActor()) {
+                    Actor target = destination.getActor();
+                    if (target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
+                        followedTarget = target;
+                        actor.addCapability(Status.AGGRESSIVE);
+                        return new AttackAction(target, exit.getName());
+                    }
                 }
             }
         }
