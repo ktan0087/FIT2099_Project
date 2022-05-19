@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.enums.Status;
+import game.items.Key;
 
 /**
  * Special Action for attacking other Actors.
@@ -109,6 +110,7 @@ public class AttackAction extends Action {
 				output += System.lineSeparator() + target + " retreated into its shell!";
 			}
 			else {
+
 				//normal output String for enemies other than Koopa
 				ActionList dropActions = new ActionList();
 				//drop all items
@@ -116,10 +118,15 @@ public class AttackAction extends Action {
 					dropActions.add(item.getDropAction(actor));
 				for (Action drop : dropActions)
 					drop.execute(target, map);
+				if (target.hasCapability(Status.CAN_DROP_KEY)){
+					map.locationOf(target).addItem(new Key());
+				}
 				//remove actor from map
 				map.removeActor(target);
 				//check if target is in dormant state
 				output += System.lineSeparator() + target + " is killed.";
+
+
 			}
 		}
 		return output;
