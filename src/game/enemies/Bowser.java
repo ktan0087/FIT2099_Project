@@ -9,13 +9,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
 import game.behaviours.AttackBehaviour;
-import game.behaviours.WanderBehaviour;
 import game.enums.Status;
 import game.interfaces.Behaviour;
-import game.items.Key;
-
-
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,14 +45,17 @@ public class Bowser extends Enemy{
 
     private int numOfPowerWaterConsumption = 0;
 
+    private static final int BOWSER_ORI_POSITION_X = 10;
+
+    private static final int BOWSER_ORI_POSITION_Y = 2;
     /**
      * Constructor.
      */
     public Bowser() {
         super(NAME, DISPLAY_CHAR, HITPOINTS);
-        this.behaviours.put(10, new WanderBehaviour());
         this.behaviours.put(8, new AttackBehaviour());
         this.addCapability(Status.CAN_ATTACK_WITH_FIRE);
+        this.addCapability(Status.CAN_DROP_KEY);
         this.registerInstance();
     }
 
@@ -95,12 +93,6 @@ public class Bowser extends Enemy{
             if (this.isConscious()) {
                 actions.add(new AttackAction(this, direction));
             }
-            //TODO: drop key on actor's location
-            else {
-                map.locationOf(this).addItem(new Key());
-                //remove target from map
-                map.removeActor(this);
-            }
         }
         return actions;
     }
@@ -114,6 +106,12 @@ public class Bowser extends Enemy{
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
+
+        if (this.hasCapability(Status.RESET)){
+            map.removeActor(this);
+            map.addActor(new Bowser(), map.at(BOWSER_ORI_POSITION_X, BOWSER_ORI_POSITION_Y));
+        }
+
         if (this.hasCapability(Status.POWER)) {
             numOfPowerWaterConsumption++;
         }
@@ -125,7 +123,6 @@ public class Bowser extends Enemy{
             if (action != null)
                 return action;
         }
-
         //return action that do nothing
         return new DoNothingAction();
     }
@@ -137,6 +134,7 @@ public class Bowser extends Enemy{
     public void resetInstance() {
         //reset Bowser's hitpoints
         this.resetMaxHp(this.getMaxHp());
+        this.addCapability(Status.RESET);
     }
 
 }

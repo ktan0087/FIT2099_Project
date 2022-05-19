@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.enums.Status;
+import game.items.Key;
 
 /**
  * Special Action for attacking other Actors.
@@ -29,6 +30,8 @@ public class AttackAction extends Action {
 	 * Random number generator
 	 */
 	protected Random rand = new Random();
+
+	private static final double fireChance = 0.5;
 
 	/**
 	 * Constructor.
@@ -86,7 +89,7 @@ public class AttackAction extends Action {
 		}
 
 		if (actor.hasCapability(Status.CAN_ATTACK_WITH_FIRE)) {
-			if (Math.random() < 0.5) {
+			if (Math.random() < fireChance) {
 				if (target.hasCapability(Status.HOSTILE_TO_ENEMY) || target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
 					output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
 					target.hurt(damage);
@@ -101,9 +104,6 @@ public class AttackAction extends Action {
 				}
 			}
 		}
-		else {
-			return actor + " misses " + target + ".";
-		}
 
 		//check if target is conscious
 		if (!target.isConscious()) {
@@ -112,6 +112,7 @@ public class AttackAction extends Action {
 				output += System.lineSeparator() + target + " retreated into its shell!";
 			}
 			else {
+
 				//normal output String for enemies other than Koopa
 				ActionList dropActions = new ActionList();
 				//drop all items
@@ -119,10 +120,15 @@ public class AttackAction extends Action {
 					dropActions.add(item.getDropAction(actor));
 				for (Action drop : dropActions)
 					drop.execute(target, map);
+				if (target.hasCapability(Status.CAN_DROP_KEY)){
+					map.locationOf(target).addItem(new Key());
+				}
 				//remove actor from map
 				map.removeActor(target);
 				//check if target is in dormant state
 				output += System.lineSeparator() + target + " is killed.";
+
+
 			}
 		}
 		return output;
