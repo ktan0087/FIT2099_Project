@@ -24,17 +24,21 @@ public class Dirt extends Ground {
 	 */
 	Display display = new Display();
 
+	private static final char fireChar = 'v';
+
+	private static final char dirtChar = '.';
 	/**
 	 * A constructor for the Dirt class
 	 */
 	public Dirt() {
-		super('.'); // display character
+		super(dirtChar); // display character
 		this.addCapability(Status.FERTILE); // add fertile status to Dirt grounds
 	}
 
 	@Override
 	public void tick(Location location){
 		if (location.getGround().hasCapability(Status.IS_BURNING) && burningTurn > 0){
+			this.setDisplayChar(fireChar);
 			if (location.containsAnActor()){
 				edu.monash.fit2099.engine.actors.Actor target = location.getActor();
 				if (target.hasCapability(Status.HOSTILE_TO_ENEMY) || target.hasCapability(Status.HOSTILE_TO_ENEMY)){
@@ -48,6 +52,7 @@ public class Dirt extends Ground {
 			location.getGround().removeCapability(Status.IS_BURNING);
 			display.println(this + " has stopped burning ");
 			burningTurn = 3;
+			this.setDisplayChar(dirtChar);
 		}
 		super.tick(location);
 	}
