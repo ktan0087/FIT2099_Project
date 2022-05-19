@@ -101,9 +101,6 @@ public class AttackAction extends Action {
 				}
 			}
 		}
-		else {
-			return actor + " misses " + target + ".";
-		}
 
 		//check if target is conscious
 		if (!target.isConscious()) {
