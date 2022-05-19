@@ -12,6 +12,7 @@ import edu.monash.fit2099.engine.positions.World;
 import game.actors.Player;
 import game.actors.PrincessPeach;
 import game.actors.Toad;
+import game.actors.Yoshi;
 import game.enemies.Bowser;
 import game.enemies.FlyingKoopa;
 import game.enemies.Koopa;
@@ -94,6 +95,9 @@ public class Application {
 			// Add health and power fountain in map
 			gameMap.at(42, 8).setGround(new HealthFountain());
 			gameMap.at(43, 8).setGround(new PowerFountain());
+
+			// Add Yoshi
+			gameMap.at(43,10).addActor(new Yoshi());
 			world.run();
 	}
 
