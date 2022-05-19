@@ -25,6 +25,12 @@ public class PatrolBehaviour implements Behaviour {
         int nextYCoord = getNextAvailableYCoord(patrolDirFlag, map, actor);
 
         if (nextYCoord == -1){
+            if (patrolDirFlag){
+                patrolDirFlag = false;
+            }
+            else {
+                patrolDirFlag = true;
+            }
             return new DoNothingAction();
         }
 
