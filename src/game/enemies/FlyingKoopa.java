@@ -9,7 +9,7 @@ import game.enums.Status;
  * @author Kennedy Tan
  * @version 2.0
  * */
-public class FlyingKoopa extends Enemy {
+public class FlyingKoopa extends AnnoyingKoopa {
 
     /**
      * The name of FlyingKoopa is set as a constant String "FlyingKoopa"
@@ -20,7 +20,7 @@ public class FlyingKoopa extends Enemy {
      */
     public static final char DISPLAY_CHAR = 'F';
     /**
-     * The hitpoints is set as a constant 100
+     * The hitpoints is set as a constant 150
      */
     public static final int HITPOINTS = 150;
 
