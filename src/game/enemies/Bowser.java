@@ -9,13 +9,8 @@ import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.weapons.IntrinsicWeapon;
 import game.actions.AttackAction;
 import game.behaviours.AttackBehaviour;
-import game.behaviours.WanderBehaviour;
 import game.enums.Status;
 import game.interfaces.Behaviour;
-import game.items.Key;
-
-
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +50,6 @@ public class Bowser extends Enemy{
      */
     public Bowser() {
         super(NAME, DISPLAY_CHAR, HITPOINTS);
-        this.behaviours.put(10, new WanderBehaviour());
         this.behaviours.put(8, new AttackBehaviour());
         this.addCapability(Status.CAN_ATTACK_WITH_FIRE);
         this.addCapability(Status.CAN_DROP_KEY);
@@ -92,11 +86,6 @@ public class Bowser extends Enemy{
         ActionList actions = new ActionList();
         //check if PLayer is in HOSTILE_TO_ENEMY state
         if (otherActor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-/*            if (!this.isConscious()) {
-                //TODO: drop key on actor's location
-                map.removeActor(this);
-                map.locationOf(this).addItem(new Key());
-            }*/
             //check if Bowser is conscious
             if (this.isConscious()) {
                 actions.add(new AttackAction(this, direction));
@@ -125,7 +114,6 @@ public class Bowser extends Enemy{
             if (action != null)
                 return action;
         }
-
         //return action that do nothing
         return new DoNothingAction();
     }
