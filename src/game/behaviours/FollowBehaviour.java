@@ -40,7 +40,7 @@ public class FollowBehaviour implements Behaviour {
 			Location destination = exit.getDestination();
 			if (destination.canActorEnter(actor) || actor.hasCapability(Status.CAN_ENTER_HIGH_GROUND)) {
 				int newDistance = distance(destination, there);
-				if (newDistance < currentDistance) {
+				if (newDistance < currentDistance && !destination.containsAnActor()) {
 					return new MoveActorAction(destination, exit.getName());
 				}
 			}
