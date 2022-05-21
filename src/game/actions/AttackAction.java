@@ -10,6 +10,7 @@ import edu.monash.fit2099.engine.items.Item;
 import edu.monash.fit2099.engine.positions.Location;
 import edu.monash.fit2099.engine.weapons.Weapon;
 import game.enums.Status;
+import game.items.Fire;
 import game.items.Key;
 
 /**
@@ -30,7 +31,9 @@ public class AttackAction extends Action {
 	 * Random number generator
 	 */
 	protected Random rand = new Random();
-
+	/**
+	 * Chance for Bowser to attack with fire
+	 */
 	private static final double fireChance = 0.5;
 
 	/**
@@ -88,19 +91,23 @@ public class AttackAction extends Action {
 			}
 		}
 
+		//check if actor have capability to attack with fire
 		if (actor.hasCapability(Status.CAN_ATTACK_WITH_FIRE)) {
 			if (Math.random() < fireChance) {
+				//all actor having these two capability will be hurt by fire
 				if (target.hasCapability(Status.HOSTILE_TO_ENEMY) || target.hasCapability(Status.HOSTILE_TO_ENEMY)) {
-					output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
-					target.hurt(damage);
-
+					//output = actor + " " + weapon.verb() + " " + target + " for " + damage + " damage.";
+					//get the location of target
 					Location location = map.locationOf(target);
-					boolean isBurning = location.getGround().hasCapability(Status.IS_BURNING);
-					if (!isBurning) {
-						location.getGround().addCapability(Status.IS_BURNING);
-						output += System.lineSeparator() + actor + " attacks " + target + " with fire! ";
-						output += System.lineSeparator() + "The ground is on fire!";
-					}
+					//boolean isBurning = location.getGround().hasCapability(Status.IS_BURNING);
+					//check if the ground is burning
+					//if (!isBurning) {
+					//add burning capability to ground
+					location.addItem(new Fire());
+					//location.getGround().addCapability(Status.IS_BURNING);
+					output += System.lineSeparator() + actor + " attacks " + target + " with fire! ";
+					output += System.lineSeparator() + "The ground is on fire!";
+					//}
 				}
 			}
 		}
