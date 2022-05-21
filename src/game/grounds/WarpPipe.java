@@ -8,6 +8,12 @@ import game.enemies.PiranhaPlant;
 import game.enums.Status;
 import game.interfaces.Resettable;
 
+/**
+ * The WarpPipe class is a type of High Ground that allows the player to teleport back and forth between maps
+ * @author Mark Manlangit
+ * @version 1.0
+ * @since 22-05-2022
+ */
 public class WarpPipe extends HighGround implements Resettable {
     /**
      * The jump chance related to a WarpPipe (used for jumping)
@@ -23,32 +29,45 @@ public class WarpPipe extends HighGround implements Resettable {
     private int age;
 
     /**
-     * A constructor for the Warp pipe class
+     * A constructor for the WarpPipe class
      */
     public WarpPipe() {
         super('C'); // display character
         setJumpChance(JUMP_CHANCE); // set jump chance of High Ground parent class based on a Warp pipe's jump chance
         setFallDamage(FALL_DAMAGE); // set fall damage of High Ground parent class based on a Warp pipe's fall damage
         age = 0;
-        this.addCapability(Status.INDESTRUCTIBLE);
+        this.addCapability(Status.INDESTRUCTIBLE); // WarpPipe cannot be destroyed
         this.registerInstance();
     }
 
+    /**
+     * A method that is called so that this WarpPipe can experience the passage of time
+     * @param location The location of the WarpPipe
+     */
     @Override
     public void tick(Location location) {
         age++;
+        // spawn PiranhaPlant after 1 turn
         if (age == 1) {
             if (!location.containsAnActor()) {
                 location.addActor(new PiranhaPlant());
             }
         }
-        super.tick(location); // call parent tick, used for reset
+        super.tick(location); // call parent tick
     }
 
+    /**
+     * A method that returns a list of actions that can be performed on this WarpPipe
+     * @param actor the Actor performing an action
+     * @param location the current Location of the WarpPipe
+     * @param direction the direction of the WarpPipe from the Actor
+     * @return a list of actions that can be performed on this WarpPipe
+     */
     @Override
     public ActionList allowableActions(Actor actor, Location location, String direction){
         ActionList actions = super.allowableActions(actor, location, direction);
-        if (location.containsAnActor() && location.getActor() == actor) {
+        // if player is on this WarpPipe, add new TeleportAction
+        if (location.containsAnActor() && location.getActor() == actor && actor.hasCapability(Status.HOSTILE_TO_ENEMY)) {
             actions.add(new TeleportAction(location));
         }
         return actions;
@@ -63,6 +82,9 @@ public class WarpPipe extends HighGround implements Resettable {
         return "Warp Pipe";
     }
 
+    /**
+     * Reset WarpPipe age (for spawning PiranhaPlant after reset)
+     */
     @Override
     public void resetInstance() {
         this.age = 0;

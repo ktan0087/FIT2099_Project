@@ -14,7 +14,7 @@ public class FlyingKoopa extends AnnoyingKoopa {
     /**
      * The name of FlyingKoopa is set as a constant String "FlyingKoopa"
      */
-    public static final String NAME = "FlyingKoopa";
+    public static final String NAME = "Flying Koopa";
     /**
      * The display char is set as a constant char 'K'
      */
