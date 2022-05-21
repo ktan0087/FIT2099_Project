@@ -13,7 +13,6 @@ public class RescueAction extends Action {
 
     /**
      * Constructor.
-     *
      * @param target    target to be destroyed
 
      */
@@ -31,8 +30,10 @@ public class RescueAction extends Action {
     @Override
     public String execute(Actor actor, GameMap map) {
         String output;
+        //congrats message on console
         output = "Congratulations! " + target + " has been saved.";
         actor.removeCapability(Status.VICTORY);
+        //remove actor to end the game
         map.removeActor(actor);
         return output;
     }
