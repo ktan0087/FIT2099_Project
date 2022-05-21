@@ -7,14 +7,13 @@ import game.enums.Status;
 
 public class RescueAction extends Action {
     /**
-     * The Actor that is to be attacked
+     * The Actor that is to be rescued
      */
     protected Actor target;
 
     /**
      * Constructor.
-     * @param target    target to be destroyed
-
+     * @param target to be destroyed
      */
     public RescueAction(Actor target) {
         this.target = target;
