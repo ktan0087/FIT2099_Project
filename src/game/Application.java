@@ -28,7 +28,7 @@ public class Application {
 
 			World world = new World(new Display());
 
-			FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Sprout(), new Lava(), new WarpPipe());
+			FancyGroundFactory groundFactory = new FancyGroundFactory(new Dirt(), new Wall(), new Floor(), new Sprout(), new Lava(), new WarpPipe(), new BlinkingTower());
 
 			List<String> map = Arrays.asList(
 				"..........................................##..........+.........................",
@@ -66,6 +66,7 @@ public class Application {
 			// Randomly populate map with grounds
 			generateRandomGrounds(map, new Sprout(), 0.01);
 			generateRandomGrounds(map, new WarpPipe(), 0.01);
+			generateRandomGrounds(map, new BlinkingTower(), 0.01);
 			generateRandomGrounds(lavaMap, new Sprout(), 0.01);
 			generateRandomGrounds(lavaMap, new Lava(), 0.1);
 
