@@ -62,6 +62,11 @@ public class Player extends Actor implements Resettable {
 		//print Player's wallet balance to console
 		display.println(this + "'s current balance: $" + Wallet.getBalance());
 
+		if (this.hasCapability(Status.POWER)){
+			this.removeCapability(Status.POWER);
+			numOfPowerWaterConsumption++;
+		}
+
 		//reset action
 		if (!(ResetAction.getResetFlag())){
 			actions.add(new ResetAction());
@@ -158,11 +163,6 @@ public class Player extends Actor implements Resettable {
 	@Override
 	protected IntrinsicWeapon getIntrinsicWeapon() {
 		IntrinsicWeapon intrinsicWeapon = super.getIntrinsicWeapon();
-		if (this.hasCapability(Status.POWER)){
-			numOfPowerWaterConsumption++;
-			this.removeCapability(Status.POWER);
-			return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE * numOfPowerWaterConsumption, intrinsicWeapon.verb());
-		}
 		return new IntrinsicWeapon(intrinsicWeapon.damage() + POWER_BASE_DAMAGE * numOfPowerWaterConsumption, intrinsicWeapon.verb());
 	}
 
