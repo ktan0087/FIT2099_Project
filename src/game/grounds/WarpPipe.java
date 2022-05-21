@@ -22,16 +22,6 @@ public class WarpPipe extends HighGround implements Resettable {
      */
     private int age;
 
-
-    /**
-     * The location of the master warp pipe in the lava zone
-     */
-    private static Location masterWarpLocation;
-    /**
-     * The location of the original warp pipe that the player will return to
-     */
-    private static Location returnLocation;
-
     /**
      * A constructor for the Warp pipe class
      */
@@ -59,25 +49,9 @@ public class WarpPipe extends HighGround implements Resettable {
     public ActionList allowableActions(Actor actor, Location location, String direction){
         ActionList actions = super.allowableActions(actor, location, direction);
         if (location.containsAnActor() && location.getActor() == actor) {
-            actions.add(new TeleportAction());
+            actions.add(new TeleportAction(location));
         }
         return actions;
-    }
-
-    public static Location getMasterWarpLocation() {
-        return masterWarpLocation;
-    }
-
-    public static void setMasterWarp(Location masterWarpLocation) {
-        WarpPipe.masterWarpLocation = masterWarpLocation;
-    }
-
-    public static Location getReturnLocation() {
-        return returnLocation;
-    }
-
-    public static void setReturnWarp(Location returnLocation) {
-        WarpPipe.returnLocation = returnLocation;
     }
 
     /**

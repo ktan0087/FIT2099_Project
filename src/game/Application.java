@@ -9,11 +9,9 @@ import edu.monash.fit2099.engine.positions.FancyGroundFactory;
 import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Ground;
 import edu.monash.fit2099.engine.positions.World;
+import game.actions.TeleportAction;
 import game.actors.*;
 import game.enemies.Bowser;
-import game.enemies.FlyingKoopa;
-import game.enemies.Koopa;
-import game.enemies.PiranhaPlant;
 import game.grounds.*;
 import game.items.PowerStar;
 import game.items.SuperMushroom;
@@ -80,8 +78,8 @@ public class Application {
 			Actor mario = new Player("Player", 'm', 100);
 			world.addPlayer(mario, gameMap.at(42, 10));
 
-			// Assign master warp in second map
-			WarpPipe.setMasterWarp(lavaZone.at(0,0));
+			// Assign initial destination of TeleportAction
+			TeleportAction.setDestination(lavaZone.at(0,0));
 
 			// Add actor and items in map
 			gameMap.at(42,11).addActor(new Toad());
