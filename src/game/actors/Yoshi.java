@@ -53,6 +53,7 @@ public class Yoshi extends Actor implements Resettable {
      */
     public Yoshi() {
         super(NAME, DISPLAY_CHAR, Integer.MAX_VALUE);
+        this.addCapability(Status.CAN_ENTER_HIGH_GROUND);
         this.registerInstance();
     }
 
