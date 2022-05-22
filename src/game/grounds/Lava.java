@@ -12,6 +12,10 @@ import game.enums.Status;
  * @since 09-05-2022
  */
 public class Lava extends Ground {
+    /**
+     * The damage an actor will take when standing on this ground
+     */
+    private static final int DAMAGE = 15;
 
     /**
      * A constructor for the Lava class
@@ -30,15 +34,26 @@ public class Lava extends Ground {
     }
 
 
+    /**
+     * Returns true if an Actor can enter this location.
+     * Actors can enter this location if they do not have the status HOSTILE_TO_PLAYER (enemy)
+     * @param actor the Actor to check
+     * @return true if the Actor can enter this location
+     */
     @Override
     public boolean canActorEnter(Actor actor) {
         return !actor.hasCapability(Status.HOSTILE_TO_PLAYER);
     }
 
+    /**
+     * A method that is called so that this lava ground can experience the passage of time
+     * In this case to deal damage to an actor standing on this ground
+     * @param location The location of the Ground
+     */
     @Override
     public void tick(Location location) {
         if (location.containsAnActor()) {
-            location.getActor().hurt(15);
+            location.getActor().hurt(DAMAGE);
         }
     }
 }

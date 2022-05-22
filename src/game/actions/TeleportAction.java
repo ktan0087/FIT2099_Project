@@ -20,7 +20,7 @@ public class TeleportAction extends Action{
     /**
      * The source location of the current WarpPipe to teleport form
      */
-    private static Location warpSource;
+    private Location warpSource;
 
     /**
      * The destination location of the current WarpPipe to teleport to
