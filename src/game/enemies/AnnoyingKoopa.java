@@ -44,7 +44,7 @@ public abstract class AnnoyingKoopa extends Enemy{
     private int numOfPowerWaterConsumption = 0;
 
     /**
-     * Constructor
+     * Constructor for AnnoyingKoopa
      * */
     public AnnoyingKoopa(String name, char displayChar, int hitPoints) {
         super(name, displayChar, hitPoints);

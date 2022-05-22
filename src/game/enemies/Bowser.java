@@ -40,16 +40,25 @@ public class Bowser extends Enemy{
      * The hitpoints is set as a constant 500
      */
     public static final int HITPOINTS = 500;
-
-    private static final int POWER_BASE_DAMAGE = 15;
-
-    private int numOfPowerWaterConsumption = 0;
-
-    private static final int BOWSER_ORI_POSITION_X = 10;
-
-    private static final int BOWSER_ORI_POSITION_Y = 2;
     /**
-     * Constructor.
+     * Power base damage
+     */
+    private static final int POWER_BASE_DAMAGE = 15;
+    /**
+     * Number of water consumption
+     */
+    private int numOfPowerWaterConsumption = 0;
+    /**
+     * Initial x position of Bowser
+     */
+    private static final int BOWSER_ORI_POSITION_X = 10;
+    /**
+     * Initial y position of Bowser
+     */
+    private static final int BOWSER_ORI_POSITION_Y = 2;
+
+    /**
+     * Constructor for Bowser
      */
     public Bowser() {
         super(NAME, DISPLAY_CHAR, HITPOINTS);
@@ -106,12 +115,12 @@ public class Bowser extends Enemy{
      */
     @Override
     public Action playTurn(ActionList actions, Action lastAction, GameMap map, Display display) {
-
+        //check if actor has Reset capability
         if (this.hasCapability(Status.RESET)){
             map.removeActor(this);
             map.addActor(new Bowser(), map.at(BOWSER_ORI_POSITION_X, BOWSER_ORI_POSITION_Y));
         }
-
+        //check if actor has capability Power
         if (this.hasCapability(Status.POWER)) {
             numOfPowerWaterConsumption++;
         }
@@ -132,7 +141,7 @@ public class Bowser extends Enemy{
      */
     @Override
     public void resetInstance() {
-        //reset Bowser's hitpoints
+        //reset Bowser hp
         this.resetMaxHp(this.getMaxHp());
         this.addCapability(Status.RESET);
     }

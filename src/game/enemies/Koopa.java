@@ -23,7 +23,7 @@ public class Koopa extends AnnoyingKoopa {
 
 
     /**
-     * Constructor. Add WanderBehaviour and AttackBehaviour to Koopa
+     * Constructor for Koopa
      */
     public Koopa() {
         super(NAME, DISPLAY_CHAR, HITPOINTS);

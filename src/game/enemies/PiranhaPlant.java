@@ -46,11 +46,14 @@ public class PiranhaPlant extends Enemy {
      * The hitpoints is set as a constant 20
      */
     private final Random rand = new Random();
-
-    private static final int POWER_BASE_DAMAGE = 15;
-
+    /**
+     * Number of Power water consumption
+     */
     private int numOfPowerWaterConsumption = 0;
 
+    /**
+     * Constructor for PiranhaPlant
+     */
     public PiranhaPlant() {
         super(NAME, DISPLAY_CHAR, HITPOINTS);
         this.addCapability(Status.NOT_FOLLOWING);
@@ -58,6 +61,11 @@ public class PiranhaPlant extends Enemy {
         this.registerInstance();
     }
 
+    /**
+     * Override getIntrinsicWeapon with its own damage and verb
+     *
+     * @return Intrinsic Weapon
+     */
     @Override
     protected IntrinsicWeapon getIntrinsicWeapon(){
         return new IntrinsicWeapon(INTRINSIC_DAMAGE, DAMAGE_VERB);

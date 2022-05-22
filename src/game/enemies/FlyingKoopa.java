@@ -26,7 +26,7 @@ public class FlyingKoopa extends AnnoyingKoopa {
 
 
     /**
-     * Constructor. Add WanderBehaviour and AttackBehaviour to Koopa
+     * Constructor for FLyingKoopa
      */
     public FlyingKoopa() {
         super(NAME, DISPLAY_CHAR, HITPOINTS);
