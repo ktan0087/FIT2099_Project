@@ -16,11 +16,12 @@ import game.behaviours.ConsumeBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.enums.Status;
 import game.interfaces.Behaviour;
+import game.interfaces.Turnable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AnnoyingKoopa extends Enemy{
+public abstract class AnnoyingKoopa extends Enemy implements Turnable {
 
     /**
      * Behaviours Hash map to store priority and  behaviour
@@ -38,9 +39,13 @@ public abstract class AnnoyingKoopa extends Enemy{
      * The display char is set as a constant 'D'
      */
     private static final char DORMANT_CHAR = 'D';
-
+    /**
+     * Power base damage
+     */
     private static final int POWER_BASE_DAMAGE = 15;
-
+    /**
+     * Number of Power Water Consumption
+     */
     private int numOfPowerWaterConsumption = 0;
 
     /**
@@ -112,7 +117,6 @@ public abstract class AnnoyingKoopa extends Enemy{
         if (this.hasCapability(Status.POWER)) {
             numOfPowerWaterConsumption++;
         }
-
         Location actorLocation = map.locationOf(this);
         super.playTurn(actions, lastAction, map, display);
 
@@ -120,9 +124,8 @@ public abstract class AnnoyingKoopa extends Enemy{
         if (!(map.contains(this))){
             return new SuicideAction(actorLocation);
         }
-
-        //check if Koopa is in dormant state
-        if (!this.isConscious()){
+        //check if Koopa is conscious
+        if ((!this.isConscious()) || (actorLocation.getGround().hasCapability(Status.IS_BURNING) && this.getHp() <= 20)){
             //set display char to 'D'
             this.setDisplayChar(DORMANT_CHAR);
             return new DoNothingAction();
@@ -137,5 +140,17 @@ public abstract class AnnoyingKoopa extends Enemy{
 
         //return action in super class
         return new DoNothingAction();
+    }
+
+    /**
+     * Method to get the current hp for Koopas
+     * @return current hp
+     */
+    @Override
+    public int getHp() {
+        int hp = 0;
+        String currentHp = this.printHp();
+        hp = Integer.parseInt(currentHp.substring(1,3));
+        return hp;
     }
 }
