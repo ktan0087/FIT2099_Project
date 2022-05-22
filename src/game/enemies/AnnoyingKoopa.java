@@ -16,12 +16,11 @@ import game.behaviours.ConsumeBehaviour;
 import game.behaviours.WanderBehaviour;
 import game.enums.Status;
 import game.interfaces.Behaviour;
-import game.interfaces.Turnable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AnnoyingKoopa extends Enemy implements Turnable {
+public abstract class AnnoyingKoopa extends Enemy{
 
     /**
      * Behaviours Hash map to store priority and  behaviour
@@ -125,9 +124,10 @@ public abstract class AnnoyingKoopa extends Enemy implements Turnable {
             return new SuicideAction(actorLocation);
         }
         //check if Koopa is conscious
-        if ((!this.isConscious()) || (actorLocation.getGround().hasCapability(Status.IS_BURNING) && this.getHp() <= 20)){
+        if ((!this.isConscious()) || (this.hasCapability(Status.ON_FIRE) && this.getHp() <= 20)){
             //set display char to 'D'
             this.setDisplayChar(DORMANT_CHAR);
+            this.removeCapability(Status.ON_FIRE);
             return new DoNothingAction();
         }
 
@@ -146,7 +146,6 @@ public abstract class AnnoyingKoopa extends Enemy implements Turnable {
      * Method to get the current hp for Koopas
      * @return current hp
      */
-    @Override
     public int getHp() {
         int hp = 0;
         String currentHp = this.printHp();

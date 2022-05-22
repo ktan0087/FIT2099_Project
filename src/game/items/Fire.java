@@ -23,7 +23,7 @@ public class Fire extends Item {
     /**
      * The number of turns for fire to fade away
      */
-    private int burningTurn = 3;
+    private int burningTurn = 4;
     /**
      * Create display object to print message to console
      */
@@ -51,12 +51,13 @@ public class Fire extends Item {
         GameMap map = currentLocation.map();
         //check if the fire location contains actor
         if (currentLocation.containsAnActor() && target.isConscious() && startBurningTurn <= 3) {
-            currentLocation.getGround().addCapability(Status.IS_BURNING);
+            if (target.hasCapability(Status.CAN_ENTER_SHELL)){
+                target.addCapability(Status.ON_FIRE);
+            }
             //fire will hurt actor for 20 damage
             currentLocation.getActor().hurt(20);
             //display message to console
             display.println(currentLocation.getActor() + " is on fire, receive 20 damage");
-
             //check if target is conscious
             if (!target.isConscious()) {
                 //check if target is Koopa
@@ -87,13 +88,9 @@ public class Fire extends Item {
 
         //if use up 3 turns
         if (burningTurn == 0){
-            currentLocation.getGround().removeCapability(Status.IS_BURNING);
             //remove fire current location
             currentLocation.removeItem(this);
         }
     }
 
-    public int getBurningTurn() {
-        return burningTurn;
-    }
 }
