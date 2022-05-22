@@ -1,19 +1,15 @@
 package game.items;
 
+import edu.monash.fit2099.engine.actions.Action;
+import edu.monash.fit2099.engine.actions.ActionList;
+import edu.monash.fit2099.engine.actors.Actor;
 import edu.monash.fit2099.engine.displays.Display;
 import edu.monash.fit2099.engine.items.Item;
+import edu.monash.fit2099.engine.positions.GameMap;
 import edu.monash.fit2099.engine.positions.Location;
+import game.enums.Status;
 
 public class Fire extends Item {
-    /**
-     * The hit rate of fire is set as a constant 50%
-     */
-    private static final int HIT_RATE = 50;
-
-    /**
-     * The damage of fire is set as a constant 20
-     */
-    private static final int DAMAGE = 20;
 
     /**
      * The name is set as a constant "Fire" / whatever you think is appropriate
@@ -24,15 +20,10 @@ public class Fire extends Item {
      * The display character of fire is set as a constant 'v' / whatever you think is appropriate
      */
     private static final char FIRE_CHAR = 'v';
-
-    /**
-     * The verb used by fire when carrying out an attack
-     */
-    private static final String FIRE_VERB = "burns";
     /**
      * The number of turns for fire to fade away
      */
-    private int turn = 4;
+    private int burningTurn = 3;
     /**
      * Create display object to print message to console
      */
@@ -50,25 +41,59 @@ public class Fire extends Item {
     }
 
     /**
-     * Remove PowerStar from the current location within 10 turns
+     * Remove fire from the current location within 10 turns
      *
-     * @param currentLocation The location of the ground on which PowerStar lie.
+     * @param currentLocation The location of the ground on which fire lie.
      */
     @Override
     public void tick(Location currentLocation){
-
-        if (currentLocation.containsAnActor() && startBurningTurn <= 3) {
+        Actor target = currentLocation.getActor();
+        GameMap map = currentLocation.map();
+        //check if the fire location contains actor
+        if (currentLocation.containsAnActor() && target.isConscious() && startBurningTurn <= 3) {
+            currentLocation.getGround().addCapability(Status.IS_BURNING);
+            //fire will hurt actor for 20 damage
             currentLocation.getActor().hurt(20);
+            //display message to console
             display.println(currentLocation.getActor() + " is on fire, receive 20 damage");
+
+            //check if target is conscious
+            if (!target.isConscious()) {
+                //check if target is Koopa
+                if (target.hasCapability(Status.CAN_ENTER_SHELL)){
+                    display.println(System.lineSeparator() + target + " retreated into its shell!");
+                }
+                else {
+                    //normal output String for enemies other than Koopa
+                    ActionList dropActions = new ActionList();
+                    //drop all items
+                    for (Item item : target.getInventory())
+                        dropActions.add(item.getDropAction(target));
+                    for (Action drop : dropActions)
+                        drop.execute(target, map);
+                    if (target.hasCapability(Status.CAN_DROP_KEY)){
+                        map.locationOf(target).addItem(new Key());
+                    }
+                    //remove actor from map
+                    map.removeActor(target);
+                    //check if target is in dormant state
+                    display.println(System.lineSeparator() + target + " was burnt to death!");
+                }
+            }
         }
 
         startBurningTurn -= 1;
-        turn -= 1;
+        burningTurn -= 1;
 
         //if use up 3 turns
-        if (turn == 0){
-            currentLocation.removeItem(this);   // remove from current location
+        if (burningTurn == 0){
+            currentLocation.getGround().removeCapability(Status.IS_BURNING);
+            //remove fire current location
+            currentLocation.removeItem(this);
         }
     }
 
+    public int getBurningTurn() {
+        return burningTurn;
+    }
 }
